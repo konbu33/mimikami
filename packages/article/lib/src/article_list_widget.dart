@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimikami/article/article_state.dart';
+
+import 'article_state.dart';
 
 final articleList =
     List.generate(10, (index) => ArticleState.create(id: "${index + 1}"));

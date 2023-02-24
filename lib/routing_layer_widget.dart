@@ -1,9 +1,8 @@
+import 'package:article/article.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:mimikami/design_layer_widget.dart';
 
-import 'article/article_detail_page.dart';
-import 'article/article_page.dart';
+import 'design_layer_widget.dart';
 
 class RoutingLayerWidget extends StatelessWidget {
   const RoutingLayerWidget({super.key});
