@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:text_to_speech/text_to_speech.dart';
 
 class ArticleDetailPage extends StatelessWidget {
   const ArticleDetailPage({
@@ -14,12 +15,14 @@ class ArticleDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: ArticleDetailPageParts.title(),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ArticleDetailPageParts.contents(articleId),
-          ],
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              ArticleDetailPageParts.contents(articleId),
+            ],
+          ),
         ),
       ),
     );
@@ -33,7 +36,13 @@ class ArticleDetailPageParts {
   }
 
   static Widget contents(String articleId) {
-    final widget = Text("ArticleDetailPageState.contents : $articleId");
+    final widget = Column(
+      children: [
+        Text("ArticleDetailPageState.contents : $articleId"),
+        const TextToSpeechWidget(),
+      ],
+    );
+
     return widget;
   }
 }
