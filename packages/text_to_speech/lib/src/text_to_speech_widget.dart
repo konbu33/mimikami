@@ -1,20 +1,24 @@
 import 'dart:async';
 
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:text_to_speech/src/tts_repository_impl.dart';
 
 import 'button_section_widget.dart';
 import 'engine_list_widget.dart';
 import 'get_max_speech_input_length_section_widget.dart';
 import 'initialize_tts.dart';
-import 'input_section_widget.dart';
 import 'language_list_widget.dart';
 import 'platform_state.dart';
 import 'slider_section_widget.dart';
+import 'text_to_speech_widget_state.dart';
+import 'tts_repository_impl.dart';
+import 'tts_state_widget.dart';
 
 class TextToSpeechWidget extends StatefulHookConsumerWidget {
-  const TextToSpeechWidget({super.key});
+  const TextToSpeechWidget({super.key, required this.contents});
+
+  final String contents;
 
   @override
   ConsumerState<TextToSpeechWidget> createState() => _TextToSpeechWidgetState();
@@ -36,19 +40,78 @@ class _TextToSpeechWidgetState extends ConsumerState<TextToSpeechWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final isAndroid = ref.watch(PlatformState.isAndroidStateProvider);
+    return Column(
+      children: [
+        TextToSpeechWidgetParts.ttsControllerWidget(),
+        TextToSpeechWidgetParts.ttsContentsWidget(widget.contents),
+      ],
+    );
+  }
+}
 
-    return ProviderScope(
-      child: Column(
+class TextToSpeechWidgetParts {
+  // --------------------------------------------------
+  // ttsControllerWidget
+  // --------------------------------------------------
+  static Widget ttsControllerWidget() {
+    return Consumer(builder: (context, ref, child) {
+      final isAndroid = ref.watch(PlatformState.isAndroidStateProvider);
+
+      return Column(
         children: [
-          const InputSectionWidget(),
+          // const InputSectionWidget(),
           const ButtonSectionWidget(),
+          const TtsStateWidget(),
           const EngineListWidget(),
           const LanguageListWidget(),
           const SliderSectionWidget(),
           if (isAndroid) const GetMaxSpeechInputLengthSectionWidget(),
         ],
-      ),
-    );
+      );
+    });
+  }
+
+  // --------------------------------------------------
+  // ttsContentsWidget
+  // --------------------------------------------------
+  static Widget ttsContentsWidget(String contents) {
+    return Consumer(builder: (context, ref, child) {
+      //
+
+      unawaited(Future(() => ref
+          .read(TextToSpeechWidgetState.newVoiceTextStateProvider.notifier)
+          .update((state) => contents)));
+
+      final currentTextList =
+          ref.watch(TextToSpeechWidgetState.currentTextListStateProvider);
+
+      return Column(
+        children: [
+          Container(
+            color: Colors.amber,
+            height: 300,
+            child: ListView.builder(
+                itemCount: currentTextList.length,
+                itemBuilder: (context, index) {
+                  return GestureDetector(
+                    onTap: () {
+                      logger.d("onTap: $index");
+
+                      // ref
+                      //     .read(ttsStateNotifierProvider.notifier)
+                      //     .updateTssState(EnumTtsState.paused);
+
+                      ref
+                          .read(TextToSpeechWidgetState
+                              .currentTextPointProvider.notifier)
+                          .update((state) => index);
+                    },
+                    child: Text(currentTextList[index]),
+                  );
+                }),
+          ),
+        ],
+      );
+    });
   }
 }

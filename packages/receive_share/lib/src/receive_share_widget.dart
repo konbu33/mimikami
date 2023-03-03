@@ -1,60 +1,47 @@
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 
-class ReceiveShareWidget extends StatefulWidget {
-  const ReceiveShareWidget({super.key});
+// --------------------------------------------------
+//
+// ReceiveShareWidgetState
+//
+// --------------------------------------------------
+class ReceiveShareWidgetState {
+  // ShareされたURLを保持する
+  static final sharedTextProvider = StateProvider((ref) => "");
 
-  @override
-  ReceiveShareWidgetState createState() => ReceiveShareWidgetState();
-}
-
-class ReceiveShareWidgetState extends State<ReceiveShareWidget> {
-  late StreamSubscription _intentDataStreamSubscription;
-  String? sharedText;
-
-  @override
-  void initState() {
-    super.initState();
-
-    // For sharing or opening urls/text coming from outside the app while the app is in the memory
-    _intentDataStreamSubscription =
-        ReceiveSharingIntent.getTextStream().listen((String value) {
-      setState(() {
-        sharedText = value;
-        logger.d("Shared: $sharedText");
-      });
+  // 他アプリからURLがShareされてくるのを待機・Shareされたら保持する。
+  static final intentDataStreamSubscriptionProvider =
+      StateProvider.autoDispose((ref) {
+    return ReceiveSharingIntent.getTextStream().listen((String value) {
+      logger.d("received Shared: $value");
+      ref.watch(sharedTextProvider.notifier).update((state) => value);
     }, onError: (err) {
       logger.d("getLinkStream error: $err");
     });
+  });
+}
 
-    // For sharing or opening urls/text coming from outside the app while the app is closed
-    ReceiveSharingIntent.getInitialText().then((String? value) {
-      setState(() {
-        sharedText = value;
-        logger.d("Shared: $sharedText");
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    _intentDataStreamSubscription.cancel();
-    super.dispose();
-  }
+// --------------------------------------------------
+//
+// ReceiveShareWidget
+//
+// --------------------------------------------------
+class ReceiveShareWidget extends StatelessWidget {
+  const ReceiveShareWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
-    const textStyleBold = TextStyle(fontWeight: FontWeight.bold);
-    return Center(
-      child: Column(
-        children: <Widget>[
-          const Text("Shared urls/text:", style: textStyleBold),
-          Text(sharedText ?? "")
-        ],
-      ),
+    return Consumer(
+      builder: (context, ref, child) {
+        // 他アプリからURLがShareされてくるのを待機
+        ref.watch(ReceiveShareWidgetState.intentDataStreamSubscriptionProvider);
+
+        return const SizedBox();
+      },
     );
   }
 }

@@ -4,6 +4,11 @@ import 'package:go_router/go_router.dart';
 
 import 'design_layer_widget.dart';
 
+// --------------------------------------------------
+//
+// RoutingLayerWidget
+//
+// --------------------------------------------------
 class RoutingLayerWidget extends StatelessWidget {
   const RoutingLayerWidget({super.key});
 
@@ -22,6 +27,11 @@ class RoutingLayerWidget extends StatelessWidget {
   }
 }
 
+// --------------------------------------------------
+//
+// goRouter
+//
+// --------------------------------------------------
 GoRouter goRouter = GoRouter(
   routes: [
     GoRoute(

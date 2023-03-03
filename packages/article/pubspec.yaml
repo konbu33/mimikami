@@ -24,6 +24,11 @@ dependencies:
   receive_share:
     path: ../receive_share
 
+  web_scraping:
+    path: ../web_scraping
+
+  hooks_riverpod: ^2.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

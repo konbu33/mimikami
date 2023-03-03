@@ -10,6 +10,7 @@ _$_ArticleState _$$_ArticleStateFromJson(Map<String, dynamic> json) =>
     _$_ArticleState(
       id: json['id'] as String,
       title: json['title'] as String,
+      uriString: json['uriString'] as String,
       contents: json['contents'] as String,
     );
 
@@ -17,6 +18,7 @@ Map<String, dynamic> _$$_ArticleStateToJson(_$_ArticleState instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
+      'uriString': instance.uriString,
       'contents': instance.contents,
     };
 

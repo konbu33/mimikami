@@ -17,6 +17,11 @@ dependencies:
   common:
     path: ../common
 
+  web_scraping:
+    path: ../web_scraping
+
+  hooks_riverpod: ^2.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

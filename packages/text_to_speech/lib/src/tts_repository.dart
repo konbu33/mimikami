@@ -12,6 +12,7 @@ class TtsRepository {
     required String? newVoiceText,
   }) async {}
   Future stop() async {}
+  Future awaitSpeakCompletion() async {}
   Future pause() async {}
   Future<dynamic> getLanguages() async {}
 

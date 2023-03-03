@@ -41,6 +41,12 @@ class TtsRepositoryImpl implements TtsRepository {
   }
 
   @override
+  Future<void> awaitSpeakCompletion() async {
+    final result = await flutterTts.awaitSpeakCompletion(true);
+    return result;
+  }
+
+  @override
   Future<int> pause() async {
     final result = await flutterTts.pause();
     return result;

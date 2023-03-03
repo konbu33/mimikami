@@ -22,6 +22,7 @@ ArticleState _$ArticleStateFromJson(Map<String, dynamic> json) {
 mixin _$ArticleState {
   String get id => throw _privateConstructorUsedError;
   String get title => throw _privateConstructorUsedError;
+  String get uriString => throw _privateConstructorUsedError;
   String get contents => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +37,7 @@ abstract class $ArticleStateCopyWith<$Res> {
           ArticleState value, $Res Function(ArticleState) then) =
       _$ArticleStateCopyWithImpl<$Res, ArticleState>;
   @useResult
-  $Res call({String id, String title, String contents});
+  $Res call({String id, String title, String uriString, String contents});
 }
 
 /// @nodoc
@@ -54,6 +55,7 @@ class _$ArticleStateCopyWithImpl<$Res, $Val extends ArticleState>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? uriString = null,
     Object? contents = null,
   }) {
     return _then(_value.copyWith(
@@ -64,6 +66,10 @@ class _$ArticleStateCopyWithImpl<$Res, $Val extends ArticleState>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      uriString: null == uriString
+          ? _value.uriString
+          : uriString // ignore: cast_nullable_to_non_nullable
               as String,
       contents: null == contents
           ? _value.contents
@@ -81,7 +87,7 @@ abstract class _$$_ArticleStateCopyWith<$Res>
       __$$_ArticleStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String title, String contents});
+  $Res call({String id, String title, String uriString, String contents});
 }
 
 /// @nodoc
@@ -97,6 +103,7 @@ class __$$_ArticleStateCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
+    Object? uriString = null,
     Object? contents = null,
   }) {
     return _then(_$_ArticleState(
@@ -107,6 +114,10 @@ class __$$_ArticleStateCopyWithImpl<$Res>
       title: null == title
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
+              as String,
+      uriString: null == uriString
+          ? _value.uriString
+          : uriString // ignore: cast_nullable_to_non_nullable
               as String,
       contents: null == contents
           ? _value.contents
@@ -120,7 +131,10 @@ class __$$_ArticleStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_ArticleState implements _ArticleState {
   const _$_ArticleState(
-      {required this.id, required this.title, required this.contents});
+      {required this.id,
+      required this.title,
+      required this.uriString,
+      required this.contents});
 
   factory _$_ArticleState.fromJson(Map<String, dynamic> json) =>
       _$$_ArticleStateFromJson(json);
@@ -130,11 +144,13 @@ class _$_ArticleState implements _ArticleState {
   @override
   final String title;
   @override
+  final String uriString;
+  @override
   final String contents;
 
   @override
   String toString() {
-    return 'ArticleState._(id: $id, title: $title, contents: $contents)';
+    return 'ArticleState._(id: $id, title: $title, uriString: $uriString, contents: $contents)';
   }
 
   @override
@@ -144,13 +160,15 @@ class _$_ArticleState implements _ArticleState {
             other is _$_ArticleState &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
+            (identical(other.uriString, uriString) ||
+                other.uriString == uriString) &&
             (identical(other.contents, contents) ||
                 other.contents == contents));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, contents);
+  int get hashCode => Object.hash(runtimeType, id, title, uriString, contents);
 
   @JsonKey(ignore: true)
   @override
@@ -170,6 +188,7 @@ abstract class _ArticleState implements ArticleState {
   const factory _ArticleState(
       {required final String id,
       required final String title,
+      required final String uriString,
       required final String contents}) = _$_ArticleState;
 
   factory _ArticleState.fromJson(Map<String, dynamic> json) =
@@ -179,6 +198,8 @@ abstract class _ArticleState implements ArticleState {
   String get id;
   @override
   String get title;
+  @override
+  String get uriString;
   @override
   String get contents;
   @override
