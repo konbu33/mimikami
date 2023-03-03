@@ -6,7 +6,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'button_section_widget.dart';
 import 'engine_list_widget.dart';
-import 'get_max_speech_input_length_section_widget.dart';
 import 'initialize_tts.dart';
 import 'language_list_widget.dart';
 import 'platform_state.dart';
@@ -58,14 +57,12 @@ class TextToSpeechWidgetParts {
       final isAndroid = ref.watch(PlatformState.isAndroidStateProvider);
 
       return Column(
-        children: [
-          // const InputSectionWidget(),
-          const ButtonSectionWidget(),
-          const TtsStateWidget(),
-          const EngineListWidget(),
-          const LanguageListWidget(),
-          const SliderSectionWidget(),
-          if (isAndroid) const GetMaxSpeechInputLengthSectionWidget(),
+        children: const [
+          ButtonSectionWidget(),
+          TtsStateWidget(),
+          EngineListWidget(),
+          LanguageListWidget(),
+          SliderSectionWidget(),
         ],
       );
     });
