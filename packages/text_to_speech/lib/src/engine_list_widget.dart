@@ -9,11 +9,6 @@ import 'tts_repository_impl.dart';
 final engineStateProvider =
     StateProvider<String?>((ref) => "com.google.android.tts");
 
-// final engineStateProvider = StateProvider<String?>((ref) {
-//   final ttsRepository = ref.watch(ttsRepositoryProvider);
-//   return ttsRepository.getDefaultEngine() as String?;
-// });
-
 class EngineListWidget extends StatelessWidget {
   const EngineListWidget({super.key});
 
