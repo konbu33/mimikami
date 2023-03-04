@@ -1,17 +1,13 @@
 import 'dart:async';
 
-import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'button_section_widget.dart';
-import 'engine_list_widget.dart';
 import 'initialize_tts.dart';
-import 'language_list_widget.dart';
-import 'slider_section_widget.dart';
+import 'text_to_speech_state.dart';
 import 'text_to_speech_widget_state.dart';
-import 'tts_repository_impl.dart';
-import 'tts_state_widget.dart';
+import 'tts_contens_view_widget.dart';
+import 'tts_controller_widget.dart';
 
 class TextToSpeechWidget extends StatefulHookConsumerWidget {
   const TextToSpeechWidget({super.key, required this.contents});
@@ -32,78 +28,51 @@ class _TextToSpeechWidgetState extends ConsumerState<TextToSpeechWidget> {
   @override
   void dispose() {
     super.dispose();
-    final ttsRepository = ref.watch(ttsRepositoryProvider);
-    ttsRepository.stop();
+    unawaited(Future(() => ref
+        .watch(ttsStateNotifierProvider.notifier)
+        .updateTssState(EnumTtsState.stopped)));
   }
 
   @override
   Widget build(BuildContext context) {
+    //
+
+    ref.watch(TextToSpeechWidgetState.playingProvider);
+    ref.watch(TextToSpeechWidgetState.playingCompleteProvider);
+    ref.watch(TextToSpeechWidgetState.pausedProvider);
+    ref.watch(TextToSpeechWidgetState.stoppedProvider);
+
     return Column(
       children: [
-        TextToSpeechWidgetParts.ttsControllerWidget(),
-        TextToSpeechWidgetParts.ttsContentsWidget(widget.contents),
+        TextToSpeechWidgetParts.ttsStateWidget(),
+        Stack(
+          alignment: AlignmentDirectional.bottomCenter,
+          children: [
+            TtsContentsViewWidget(contents: widget.contents),
+            const TtsControllerWidget(),
+          ],
+        ),
       ],
     );
   }
 }
 
 class TextToSpeechWidgetParts {
-  // --------------------------------------------------
-  // ttsControllerWidget
-  // --------------------------------------------------
-  static Widget ttsControllerWidget() {
-    return Column(
-      children: const [
-        ButtonSectionWidget(),
-        TtsStateWidget(),
-        EngineListWidget(),
-        LanguageListWidget(),
-        SliderSectionWidget(),
-      ],
-    );
-  }
+  static Widget ttsStateWidget() {
+    final widget = Consumer(builder: (context, ref, child) {
+      final currentTextPoint =
+          ref.watch(TextToSpeechWidgetState.currentTextPointProvider);
 
-  // --------------------------------------------------
-  // ttsContentsWidget
-  // --------------------------------------------------
-  static Widget ttsContentsWidget(String contents) {
-    return Consumer(builder: (context, ref, child) {
-      //
-
-      unawaited(Future(() => ref
-          .read(TextToSpeechWidgetState.newVoiceTextStateProvider.notifier)
-          .update((state) => contents)));
-
-      final currentTextList =
-          ref.watch(TextToSpeechWidgetState.currentTextListStateProvider);
+      final ttsState = ref.watch(ttsStateNotifierProvider);
 
       return Column(
         children: [
-          Container(
-            color: Colors.amber,
-            height: 300,
-            child: ListView.builder(
-                itemCount: currentTextList.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      logger.d("onTap: $index");
-
-                      // ref
-                      //     .read(ttsStateNotifierProvider.notifier)
-                      //     .updateTssState(EnumTtsState.paused);
-
-                      ref
-                          .read(TextToSpeechWidgetState
-                              .currentTextPointProvider.notifier)
-                          .update((state) => index);
-                    },
-                    child: Text(currentTextList[index]),
-                  );
-                }),
-          ),
+          Text("currentTextPoint: $currentTextPoint"),
+          Text("ttsState: ${ttsState.value}"),
         ],
       );
     });
+
+    return widget;
   }
 }

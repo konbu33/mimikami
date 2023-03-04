@@ -32,16 +32,13 @@ class ArticleDetailPage extends HookConsumerWidget {
           style: const TextStyle(fontSize: 16),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              TextToSpeechWidget(
-                contents: currentArticleState.contents,
-              ),
-            ],
-          ),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            TextToSpeechWidget(
+              contents: currentArticleState.contents,
+            ),
+          ],
         ),
       ),
     );

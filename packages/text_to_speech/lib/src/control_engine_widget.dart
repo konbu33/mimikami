@@ -9,8 +9,8 @@ import 'tts_repository_impl.dart';
 final engineStateProvider =
     StateProvider<String?>((ref) => "com.google.android.tts");
 
-class EngineListWidget extends StatelessWidget {
-  const EngineListWidget({super.key});
+class ControlEngineWidget extends StatelessWidget {
+  const ControlEngineWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -112,14 +112,16 @@ class TextToSpeechWidgetState {
         rate: rate,
         newVoiceText: currentText,
       );
+      logger.d("countup1");
     }
 
-    // 読み上げ途中で状態変化している可能性があるため、再度playingであることを確認
-    if (ref.read(ttsStateNotifierProvider.notifier).isPlaying()) {
-      Future(() => ref
-          .read(currentTextPointProvider.notifier)
-          .update((state) => state + 1));
-    }
+    // // 読み上げ途中で状態変化している可能性があるため、再度playingであることを確認
+    // if (ref.read(ttsStateNotifierProvider.notifier).isPlaying()) {
+    //   logger.d("countup2");
+    //   Future(() => ref
+    //       .read(currentTextPointProvider.notifier)
+    //       .update((state) => state + 1));
+    // }
   });
 
   // --------------------------------------------------

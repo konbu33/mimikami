@@ -8,8 +8,8 @@ import 'tts_repository_impl.dart';
 final isCurrentLanguageInstalledStateProvider =
     StateProvider<bool>((ref) => false);
 
-class LanguageListWidget extends StatelessWidget {
-  const LanguageListWidget({super.key});
+class ControlLanguageWidget extends StatelessWidget {
+  const ControlLanguageWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

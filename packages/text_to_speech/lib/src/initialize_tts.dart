@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:common/common.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:text_to_speech/src/engine_list_widget.dart';
+import 'package:text_to_speech/src/control_engine_widget.dart';
 import 'package:text_to_speech/src/platform_state.dart';
 
-import 'language_list_widget.dart';
+import 'control_language_widget.dart';
 import 'text_to_speech_state.dart';
 import 'text_to_speech_widget_state.dart';
 
@@ -63,53 +63,58 @@ final initializedTtsProvider = Provider((ref) {
       getDefaultVoice();
     }
 
-    // flutterTts.setStartHandler(() {
-    //   logger.d("handler: Playing");
-    //   Future(() => ref
-    //       .read(ttsStateNotifierProvider.notifier)
-    //       .updateTssState(EnumTtsState.playing));
-    // });
+    flutterTts.setStartHandler(() {
+      logger.d("handler: setStartHandler");
+      // Future(() => ref
+      //     .read(ttsStateNotifierProvider.notifier)
+      //     .updateTssState(EnumTtsState.playing));
+    });
 
     if (isAndroid) {
       flutterTts.setInitHandler(() {
-        logger.d("handler: TTS Initialized");
-        ref
-            .read(ttsStateNotifierProvider.notifier)
-            .updateTssState(EnumTtsState.stopped);
+        logger.d("handler: setInitHandler");
+        // ref
+        //     .read(ttsStateNotifierProvider.notifier)
+        //     .updateTssState(EnumTtsState.stopped);
       });
     }
 
-    // flutterTts.setCompletionHandler(() {
-    //   logger.d("handler: Complete");
-    //   Future(() => ref
-    //       .read(ttsStateNotifierProvider.notifier)
-    //       .updateTssState(EnumTtsState.stopped));
-    // });
+    flutterTts.setCompletionHandler(() {
+      logger.d("handler: setCompletionHandler");
 
-    // flutterTts.setCancelHandler(() {
-    //   logger.d("handler: Cancel");
-    //   Future(() => ref
-    //       .read(ttsStateNotifierProvider.notifier)
-    //       .updateTssState(EnumTtsState.stopped));
-    // });
+      // 読み上げ途中で状態変化している可能性があるため、再度playingであることを確認
+      if (ref.read(ttsStateNotifierProvider.notifier).isPlaying()) {
+        logger.d("countup3");
+        Future(() => ref
+            .read(TextToSpeechWidgetState.currentTextPointProvider.notifier)
+            .update((state) => state + 1));
+      }
+    });
 
-    // flutterTts.setPauseHandler(() {
-    //   logger.d("handler: Paused");
-    //   Future(() => ref
-    //       .read(ttsStateNotifierProvider.notifier)
-    //       .updateTssState(EnumTtsState.paused));
-    // });
+    flutterTts.setCancelHandler(() {
+      logger.d("handler: setCancelHandler");
+      // Future(() => ref
+      //     .read(ttsStateNotifierProvider.notifier)
+      //     .updateTssState(EnumTtsState.stopped));
+    });
 
-    // flutterTts.setContinueHandler(() {
-    //   logger.d("handler: Continued");
-    //   Future(() => ref
-    //       .read(ttsStateNotifierProvider.notifier)
-    //       // .updateTssState(EnumTtsState.continued));
-    //       .updateTssState(EnumTtsState.playing));
-    // });
+    flutterTts.setPauseHandler(() {
+      logger.d("handler: setPauseHandler");
+      // Future(() => ref
+      //     .read(ttsStateNotifierProvider.notifier)
+      //     .updateTssState(EnumTtsState.paused));
+    });
+
+    flutterTts.setContinueHandler(() {
+      logger.d("handler: setContinueHandler");
+      // Future(() => ref
+      //     .read(ttsStateNotifierProvider.notifier)
+      //     // .updateTssState(EnumTtsState.continued));
+      //     .updateTssState(EnumTtsState.playing));
+    });
 
     flutterTts.setErrorHandler((msg) {
-      logger.d("handler: error: $msg");
+      logger.d("handler: setErrorHandler: $msg");
       ref
           .read(ttsStateNotifierProvider.notifier)
           .updateTssState(EnumTtsState.stopped);
