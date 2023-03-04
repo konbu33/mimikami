@@ -8,7 +8,6 @@ import 'button_section_widget.dart';
 import 'engine_list_widget.dart';
 import 'initialize_tts.dart';
 import 'language_list_widget.dart';
-import 'platform_state.dart';
 import 'slider_section_widget.dart';
 import 'text_to_speech_widget_state.dart';
 import 'tts_repository_impl.dart';
@@ -53,19 +52,15 @@ class TextToSpeechWidgetParts {
   // ttsControllerWidget
   // --------------------------------------------------
   static Widget ttsControllerWidget() {
-    return Consumer(builder: (context, ref, child) {
-      final isAndroid = ref.watch(PlatformState.isAndroidStateProvider);
-
-      return Column(
-        children: const [
-          ButtonSectionWidget(),
-          TtsStateWidget(),
-          EngineListWidget(),
-          LanguageListWidget(),
-          SliderSectionWidget(),
-        ],
-      );
-    });
+    return Column(
+      children: const [
+        ButtonSectionWidget(),
+        TtsStateWidget(),
+        EngineListWidget(),
+        LanguageListWidget(),
+        SliderSectionWidget(),
+      ],
+    );
   }
 
   // --------------------------------------------------
