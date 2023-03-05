@@ -41,6 +41,7 @@ class _TextToSpeechWidgetState extends ConsumerState<TextToSpeechWidget> {
     ref.watch(TextToSpeechWidgetState.playingCompleteProvider);
     ref.watch(TextToSpeechWidgetState.pausedProvider);
     ref.watch(TextToSpeechWidgetState.stoppedProvider);
+    ref.watch(TextToSpeechWidgetState.junpingProvider);
 
     return Column(
       children: [

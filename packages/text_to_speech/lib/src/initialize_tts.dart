@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:common/common.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:text_to_speech/src/control_engine_widget.dart';
 import 'package:text_to_speech/src/platform_state.dart';
 
@@ -65,6 +66,23 @@ final initializedTtsProvider = Provider((ref) {
 
     flutterTts.setStartHandler(() {
       logger.d("handler: setStartHandler");
+
+      // onTapしたテキスト位置まで自動スクロール
+      void scrollToIndex() {
+        final currentTextPoint =
+            ref.read(TextToSpeechWidgetState.currentTextPointProvider);
+
+        final autoScrollController =
+            ref.read(TextToSpeechWidgetState.autoScrollControllerProvider);
+
+        autoScrollController.scrollToIndex(
+          currentTextPoint,
+          preferPosition: AutoScrollPosition.middle,
+        );
+      }
+
+      scrollToIndex();
+
       // Future(() => ref
       //     .read(ttsStateNotifierProvider.notifier)
       //     .updateTssState(EnumTtsState.playing));
@@ -82,12 +100,11 @@ final initializedTtsProvider = Provider((ref) {
     flutterTts.setCompletionHandler(() {
       logger.d("handler: setCompletionHandler");
 
-      // 読み上げ途中で状態変化している可能性があるため、再度playingであることを確認
       if (ref.read(ttsStateNotifierProvider.notifier).isPlaying()) {
-        logger.d("countup3");
-        Future(() => ref
+        logger.d("countup-junp-no");
+        unawaited(Future(() => ref
             .read(TextToSpeechWidgetState.currentTextPointProvider.notifier)
-            .update((state) => state + 1));
+            .update((state) => state + 1)));
       }
     });
 

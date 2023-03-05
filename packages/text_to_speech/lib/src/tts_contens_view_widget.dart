@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:text_to_speech/src/text_to_speech_state.dart';
 
 import 'text_to_speech_widget_state.dart';
 
@@ -19,6 +21,9 @@ class TtsContentsViewWidget extends HookConsumerWidget {
       final currentTextPoint =
           ref.watch(TextToSpeechWidgetState.currentTextPointProvider);
 
+      final autoScrollController =
+          ref.watch(TextToSpeechWidgetState.autoScrollControllerProvider);
+
       // 読み上げ対象のコンテンツを登録
       unawaited(Future(() => ref
           .read(TextToSpeechWidgetState.newVoiceTextStateProvider.notifier)
@@ -29,12 +34,13 @@ class TtsContentsViewWidget extends HookConsumerWidget {
           ref.watch(TextToSpeechWidgetState.currentTextListStateProvider);
 
       return Container(
-        // color: Colors.amber,
         margin: const EdgeInsets.symmetric(horizontal: 30),
         height: MediaQuery.of(context).size.height * 0.85,
 
         // 配列化したデータを表示(onTap可能にする)
         child: ListView.builder(
+            scrollDirection: Axis.vertical,
+            controller: autoScrollController,
             itemCount: currentTextList.length,
             itemBuilder: (context, index) {
               //
@@ -42,20 +48,25 @@ class TtsContentsViewWidget extends HookConsumerWidget {
               final textStyle = TextStyle(
                   color: currentTextPoint == index ? Colors.red : Colors.black);
 
-              return GestureDetector(
-                onTap: () {
-                  logger.d("onTap: $index");
+              return AutoScrollTag(
+                key: ValueKey(index),
+                controller: autoScrollController,
+                index: index,
+                child: GestureDetector(
+                  onTap: () {
+                    logger.d("onTap: $index");
 
-                  // ref
-                  //     .read(ttsStateNotifierProvider.notifier)
-                  //     .updateTssState(EnumTtsState.paused);
+                    ref
+                        .read(ttsStateNotifierProvider.notifier)
+                        .updateTssState(EnumTtsState.junping);
 
-                  ref
-                      .read(TextToSpeechWidgetState
-                          .currentTextPointProvider.notifier)
-                      .update((state) => index);
-                },
-                child: Text(currentTextList[index], style: textStyle),
+                    ref
+                        .read(TextToSpeechWidgetState
+                            .currentTextPointProvider.notifier)
+                        .update((state) => index);
+                  },
+                  child: Text(currentTextList[index], style: textStyle),
+                ),
               );
             }),
       );

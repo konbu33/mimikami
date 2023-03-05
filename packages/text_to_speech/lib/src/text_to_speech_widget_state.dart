@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:common/common.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:text_to_speech/src/text_to_speech_state.dart';
 
 import 'tts_repository_impl.dart';
@@ -13,6 +14,9 @@ class TextToSpeechWidgetState {
   static final pitchStateProvider = StateProvider<double>((ref) => 1.0);
   static final rateStateProvider = StateProvider<double>((ref) => 0.7);
   static final newVoiceTextStateProvider = StateProvider<String?>((ref) => "");
+
+  static final autoScrollControllerProvider =
+      StateProvider((ref) => AutoScrollController());
 
   // --------------------------------------------------
   //
@@ -114,14 +118,6 @@ class TextToSpeechWidgetState {
       );
       logger.d("countup1");
     }
-
-    // // 読み上げ途中で状態変化している可能性があるため、再度playingであることを確認
-    // if (ref.read(ttsStateNotifierProvider.notifier).isPlaying()) {
-    //   logger.d("countup2");
-    //   Future(() => ref
-    //       .read(currentTextPointProvider.notifier)
-    //       .update((state) => state + 1));
-    // }
   });
 
   // --------------------------------------------------
@@ -176,6 +172,25 @@ class TextToSpeechWidgetState {
 
     unawaited(Future(() =>
         ref.read(currentTextPointProvider.notifier).update((state) => 0)));
+
+    logger.d("stoppedProvider: executed");
+  });
+
+  // --------------------------------------------------
+  //
+  // 責務：junping操作時の処理
+  //
+  // --------------------------------------------------
+  static final junpingProvider = Provider<void>((ref) async {
+    final ttsState = ref.watch(ttsStateNotifierProvider);
+    if (ttsState.value != EnumTtsState.junping) return;
+
+    final ttsRepository = ref.watch(ttsRepositoryProvider);
+    await ttsRepository.stop();
+
+    unawaited(Future(() => ref
+        .read(ttsStateNotifierProvider.notifier)
+        .updateTssState(EnumTtsState.playing)));
 
     logger.d("stoppedProvider: executed");
   });

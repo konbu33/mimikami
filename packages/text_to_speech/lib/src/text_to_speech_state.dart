@@ -8,6 +8,7 @@ enum EnumTtsState {
   stopped,
   paused,
   continued,
+  junping,
 }
 
 @freezed

@@ -59,11 +59,11 @@ class TtsRepositoryImpl implements TtsRepository {
   @override
   Future<dynamic> getEngines() async => await flutterTts.getEngines;
 
-  @override
-  Future<int?> getMaxSpeechInputLength() async {
-    final res = await flutterTts.getMaxSpeechInputLength;
-    return res;
-  }
+  // @override
+  // Future<int?> getMaxSpeechInputLength() async {
+  //   final res = await flutterTts.getMaxSpeechInputLength;
+  //   return res;
+  // }
 
   @override
   Future<dynamic> setLanguage(String language) async =>
