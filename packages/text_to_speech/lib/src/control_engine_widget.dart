@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'platform_state.dart';
-import 'text_to_speech_widget_state.dart';
 import 'tts_repository_impl.dart';
 
 final engineStateProvider =
@@ -36,9 +35,9 @@ class ControlEngineWidget extends StatelessWidget {
             items: getEnginesDropDownMenuItems(engines),
             onChanged: (Object? selectedEngine) async {
               await ttsRepository.setEngine(selectedEngine! as String);
-              ref
-                  .read(TextToSpeechWidgetState.languageStateProvider.notifier)
-                  .update((state) => "en-US");
+              // ref
+              //     .read(TextToSpeechWidgetState.languageStateProvider.notifier)
+              //     .update((state) => "en-US");
               ref
                   .read(engineStateProvider.notifier)
                   .update((state) => selectedEngine as String?);

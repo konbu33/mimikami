@@ -1,4 +1,3 @@
-import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:text_to_speech/src/text_to_speech_state.dart';
@@ -20,8 +19,8 @@ class ControlButtonSectionWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             ControlButtonSectionWidgetParts.playButtonWidget(),
-            ControlButtonSectionWidgetParts.stopButtonWidget(),
             ControlButtonSectionWidgetParts.pauseButtonWidget(),
+            ControlButtonSectionWidgetParts.stopButtonWidget(),
           ],
         ),
       );
@@ -34,6 +33,8 @@ class ControlButtonSectionWidgetParts {
     //
 
     final widget = Consumer(builder: (context, ref, child) {
+      final ttsState = ref.watch(ttsStateNotifierProvider);
+
       final currentTextList =
           ref.watch(TextToSpeechWidgetState.currentTextListStateProvider);
 
@@ -42,39 +43,16 @@ class ControlButtonSectionWidgetParts {
         splashColor: Colors.greenAccent,
         icon: Icons.play_arrow,
         label: 'PLAY',
-        func: () {
-          return currentTextList.isEmpty ||
-                  ref.read(ttsStateNotifierProvider.notifier).isPlaying()
-              ? null
-              : () async {
-                  logger.d("Button pressed");
-                  ref
-                      .read(ttsStateNotifierProvider.notifier)
-                      .updateTssState(EnumTtsState.playing);
+        func: () =>
+            currentTextList.isEmpty || ttsState.value == EnumTtsState.playing
+                ? null
+                : () {
+                    ref
+                        .read(ttsStateNotifierProvider.notifier)
+                        .updateTssState(EnumTtsState.playing);
 
-                  return;
-                };
-        },
-      );
-    });
-
-    return widget;
-  }
-
-  static Widget stopButtonWidget() {
-    //
-
-    final widget = Consumer(builder: (context, ref, child) {
-      return ControlButtonWidget(
-        color: Colors.red,
-        splashColor: Colors.redAccent,
-        icon: Icons.stop,
-        label: 'STOP',
-        func: () => () {
-          ref
-              .read(ttsStateNotifierProvider.notifier)
-              .updateTssState(EnumTtsState.stopped);
-        },
+                    return;
+                  },
       );
     });
 
@@ -85,16 +63,44 @@ class ControlButtonSectionWidgetParts {
     //
 
     final widget = Consumer(builder: (context, ref, child) {
+      final ttsState = ref.watch(ttsStateNotifierProvider);
+
       return ControlButtonWidget(
         color: Colors.blue,
         splashColor: Colors.blueAccent,
         icon: Icons.pause,
         label: 'PAUSE',
-        func: () => () {
-          ref
-              .read(ttsStateNotifierProvider.notifier)
-              .updateTssState(EnumTtsState.paused);
-        },
+        func: () => ttsState.value != EnumTtsState.playing
+            ? null
+            : () {
+                ref
+                    .read(ttsStateNotifierProvider.notifier)
+                    .updateTssState(EnumTtsState.paused);
+              },
+      );
+    });
+
+    return widget;
+  }
+
+  static Widget stopButtonWidget() {
+    //
+
+    final widget = Consumer(builder: (context, ref, child) {
+      final ttsState = ref.watch(ttsStateNotifierProvider);
+
+      return ControlButtonWidget(
+        color: Colors.red,
+        splashColor: Colors.redAccent,
+        icon: Icons.stop,
+        label: 'STOP',
+        func: () => ttsState.value == EnumTtsState.stopped
+            ? null
+            : () {
+                ref
+                    .read(ttsStateNotifierProvider.notifier)
+                    .updateTssState(EnumTtsState.stopped);
+              },
       );
     });
 

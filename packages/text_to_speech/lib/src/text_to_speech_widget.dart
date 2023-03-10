@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:text_to_speech/src/tts_repository_impl.dart';
 
 import 'initialize_tts.dart';
 import 'text_to_speech_state.dart';
@@ -28,9 +29,14 @@ class _TextToSpeechWidgetState extends ConsumerState<TextToSpeechWidget> {
   @override
   void dispose() {
     super.dispose();
-    unawaited(Future(() => ref
-        .watch(ttsStateNotifierProvider.notifier)
-        .updateTssState(EnumTtsState.stopped)));
+    ref.watch(ttsRepositoryProvider).stop();
+
+    // final ttsRepository = ref.watch(ttsRepositoryProvider);
+    // ttsRepository.stop();
+
+    // unawaited(Future(() => ref
+    //     .watch(ttsStateNotifierProvider.notifier)
+    //     .updateTssState(EnumTtsState.stopped)));
   }
 
   @override

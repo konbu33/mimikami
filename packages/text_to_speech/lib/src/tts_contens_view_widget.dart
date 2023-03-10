@@ -53,7 +53,7 @@ class TtsContentsViewWidget extends HookConsumerWidget {
                 controller: autoScrollController,
                 index: index,
                 child: GestureDetector(
-                  onTap: () {
+                  onDoubleTap: () {
                     logger.d("onTap: $index");
 
                     ref
