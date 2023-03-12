@@ -48,6 +48,9 @@ dependencies:
   receive_share:
     path: packages/receive_share
 
+  local_db:
+    path: packages/local_db
+
   common:
     path: packages/common
 
