@@ -40,8 +40,19 @@ dependencies:
   json_annotation: ^4.8.0
   google_fonts: ^4.0.3
 
+  hooks_riverpod: ^2.2.0
+
   article:
     path: packages/article
+
+  receive_share:
+    path: packages/receive_share
+
+  local_db:
+    path: packages/local_db
+
+  common:
+    path: packages/common
 
 dev_dependencies:
   flutter_test:

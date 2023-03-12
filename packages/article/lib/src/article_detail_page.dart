@@ -1,6 +1,14 @@
+import 'package:article/src/article_state.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:text_to_speech/text_to_speech.dart';
 
-class ArticleDetailPage extends StatelessWidget {
+// --------------------------------------------------
+//
+// ArticleDetailPage
+//
+// --------------------------------------------------
+class ArticleDetailPage extends HookConsumerWidget {
   const ArticleDetailPage({
     super.key,
     required this.articleId,
@@ -9,35 +17,30 @@ class ArticleDetailPage extends StatelessWidget {
   final String articleId;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final articleStateListNotifier =
+        ref.watch(articleStateListNotifierProvider);
+
+    final currentArticleState = articleStateListNotifier.value
+        .where((element) => element.id == articleId)
+        .first;
+
     return Scaffold(
       appBar: AppBar(
-        title: ArticleDetailPageParts.title(),
+        title: Text(
+          currentArticleState.title,
+          style: const TextStyle(fontSize: 16),
+        ),
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            ArticleDetailPageParts.contents(articleId),
+            TextToSpeechWidget(
+              contents: currentArticleState.contents,
+            ),
           ],
         ),
       ),
     );
   }
-}
-
-class ArticleDetailPageParts {
-  static Widget title() {
-    const widget = Text(ArticleDetailPageState.title);
-    return widget;
-  }
-
-  static Widget contents(String articleId) {
-    final widget = Text("ArticleDetailPageState.contents : $articleId");
-    return widget;
-  }
-}
-
-class ArticleDetailPageState {
-  static const title = "article detail page";
 }
