@@ -3,7 +3,6 @@ import 'package:article/src/article_state.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:local_db/local_db.dart';
 import 'package:receive_share/receive_share.dart';
 
 import 'article_list_widget.dart';
@@ -101,8 +100,7 @@ class ArticlePageParts {
             contents: "contents",
           );
 
-          final x =
-              await articleRepository.addArticle(articleState: artcileState);
+          await articleRepository.addArticle(articleState: artcileState);
 
           final res = await articleRepository.getAllarticles();
           logger.d("localDbDrift data : $res");
