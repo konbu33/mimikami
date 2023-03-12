@@ -9,21 +9,30 @@ part 'article_repository.g.dart';
 @riverpod
 class ArticleRepository extends _$ArticleRepository {
   @override
-  DriftDb build() {
+  ArticleRepositoryDrift build() {
     final driftDb = ref.watch(driftDbProvider);
 
     logger.d("driftDbProvider: artcileReposiotry");
-    return driftDb;
+    final articleRepositoryDrift = ArticleRepositoryDrift(instance: driftDb);
+    return articleRepositoryDrift;
   }
+}
+
+class ArticleRepositoryDrift {
+  const ArticleRepositoryDrift({required this.instance});
+
+  final DriftDb instance;
 
   Future<List<Article>> getAllarticles() async {
-    return await state.select(state.articles).get();
+    return await instance.select(instance.articles).get();
   }
 
   Future<int> addArticle({
     required ArticleState articleState,
   }) async {
-    return await state.into(state.articles).insert(ArticlesCompanion.insert(
+    return await instance
+        .into(instance.articles)
+        .insert(ArticlesCompanion.insert(
           id: articleState.id,
           uriString: articleState.uriString,
           title: articleState.title,
@@ -32,6 +41,6 @@ class ArticleRepository extends _$ArticleRepository {
   }
 
   Future<void> close() async {
-    return await state.close();
+    return await instance.close();
   }
 }

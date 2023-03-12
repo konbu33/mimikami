@@ -5,6 +5,9 @@ import 'dart:io';
 import 'package:common/common.dart';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+
+import 'package:flutter/services.dart' show rootBundle;
+
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
@@ -39,10 +42,11 @@ LazyDatabase _openConnection() {
   final lazyDatabase = LazyDatabase(() async {
     // put the database file, called db.sqlite here, into the documents folder
     // for your app.
-    final dbFolder = await getTemporaryDirectory();
-    // final dbFolder = await getApplicationDocumentsDirectory();
+    // final dbFolder = await getTemporaryDirectory();
+    final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'db.sqlite'));
     logger.d("dbFolder.path : ${dbFolder.path}");
+
     return NativeDatabase.createInBackground(file);
   });
 

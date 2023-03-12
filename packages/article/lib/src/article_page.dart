@@ -87,9 +87,10 @@ class ArticlePageParts {
   static Widget localDbWidget() {
     final widget = Consumer(builder: (context, ref, child) {
       // final localDb = ref.watch(localDbDriftProvider);
-      ref.watch(driftDbProvider);
-      ref.watch(articleRepositoryProvider);
-      final articleRepository = ref.watch(articleRepositoryProvider.notifier);
+      // ref.watch(driftDbProvider);
+      // ref.watch(articleRepositoryProvider);
+      // final articleRepository = ref.watch(articleRepositoryProvider.notifier);
+      final articleRepository = ref.watch(articleRepositoryProvider);
 
       return ElevatedButton(
         onPressed: () async {
