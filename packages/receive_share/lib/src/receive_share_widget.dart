@@ -1,8 +1,10 @@
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
 import 'package:receive_sharing_intent/receive_sharing_intent.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'receive_share_widget.g.dart';
 
 // --------------------------------------------------
 //
@@ -11,17 +13,33 @@ import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 // --------------------------------------------------
 class ReceiveShareWidgetState {
   // ShareされたURLを保持する
-  static final sharedTextProvider = StateProvider((ref) => "");
+  static final sharedTextProvider = _sharedTextProvider;
 
   // 他アプリからURLがShareされてくるのを待機・Shareされたら保持する。
   static final intentDataStreamSubscriptionProvider =
-      StateProvider.autoDispose((ref) {
-    return ReceiveSharingIntent.getTextStream().listen((String value) {
-      logger.d("received Shared: $value");
-      ref.watch(sharedTextProvider.notifier).update((state) => value);
-    }, onError: (err) {
-      logger.d("getLinkStream error: $err");
-    });
+      _intentDataStreamSubscriptionProvider;
+}
+
+@riverpod
+class _SharedText extends _$SharedText {
+  @override
+  String build() {
+    return "";
+  }
+
+  void update(String value) {
+    state = value;
+  }
+}
+
+// 他アプリからURLがShareされてくるのを待機・Shareされたら保持する。
+@riverpod
+_intentDataStreamSubscription(_IntentDataStreamSubscriptionRef ref) {
+  return ReceiveSharingIntent.getTextStream().listen((String value) {
+    logger.d("received Shared: $value");
+    ref.read(_sharedTextProvider.notifier).update(value);
+  }, onError: (err) {
+    logger.d("getLinkStream error: $err");
   });
 }
 
