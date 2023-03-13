@@ -51,7 +51,8 @@ class ArticleStateListNotifier extends _$ArticleStateListNotifier {
 //
 // --------------------------------------------------
 // 責務：URLを受け取り、WebScrapingでタイトルと内容を取得し、ArticleStateを作成し、コレクションに追加する。
-final reflectAddArticleStateListProvider = Provider((ref) async {
+@riverpod
+void reflectAddArticleStateList(ReflectAddArticleStateListRef ref) async {
   // URLを受け取る
   final sharedText = ref.watch(ReceiveShareWidgetState.sharedTextProvider);
 
@@ -76,4 +77,4 @@ final reflectAddArticleStateListProvider = Provider((ref) async {
   );
 
   //
-});
+}
