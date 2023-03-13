@@ -1,7 +1,8 @@
-import 'package:article/src/article_state.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:text_to_speech/text_to_speech.dart';
+
+import 'article_state_list.dart';
 
 // --------------------------------------------------
 //
