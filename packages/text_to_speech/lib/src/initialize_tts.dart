@@ -55,7 +55,7 @@ final initializedTtsProvider = Provider((ref) {
       flutterTts.isLanguageInstalled(language).then((value) {
         ref
             .read(isCurrentLanguageInstalledStateProvider.notifier)
-            .update((state) => value as bool);
+            .update(value as bool);
       });
     }
 
