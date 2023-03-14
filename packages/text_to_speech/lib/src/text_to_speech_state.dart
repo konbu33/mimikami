@@ -1,7 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'text_to_speech_state.freezed.dart';
+part 'text_to_speech_state.g.dart';
 
 enum EnumTtsState {
   playing,
@@ -25,7 +26,8 @@ class TtsState with _$TtsState {
       );
 }
 
-class TtsStateNotifier extends Notifier<TtsState> {
+@riverpod
+class TtsStateNotifier extends _$TtsStateNotifier {
   @override
   TtsState build() {
     return TtsState.create();
@@ -40,7 +42,3 @@ class TtsStateNotifier extends Notifier<TtsState> {
   bool isPaused() => state.value == EnumTtsState.paused;
   bool isContinued() => state.value == EnumTtsState.continued;
 }
-
-final ttsStateNotifierProvider = NotifierProvider<TtsStateNotifier, TtsState>(
-  () => TtsStateNotifier(),
-);

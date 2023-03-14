@@ -10,7 +10,7 @@ class ControlSliderWidget extends StatelessWidget {
     required this.divisions,
     required this.label,
     required this.activeColor,
-    required this.stateProvider,
+    required this.value,
   });
 
   final void Function(double)? onChanged;
@@ -19,14 +19,12 @@ class ControlSliderWidget extends StatelessWidget {
   final int divisions;
   final String label;
   final Color activeColor;
-  final StateProvider<double> stateProvider;
+  final double value;
 
   @override
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        final value = ref.watch(stateProvider);
-
         return Slider(
           value: value,
           onChanged: onChanged,

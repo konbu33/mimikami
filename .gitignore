@@ -44,4 +44,5 @@ app.*.map.json
 /android/app/release
 
 # build_runner
+*.freezed.dart
 *.g.dart

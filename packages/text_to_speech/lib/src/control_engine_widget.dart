@@ -1,12 +1,26 @@
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'platform_state.dart';
 import 'tts_repository_impl.dart';
 
-final engineStateProvider =
-    StateProvider<String?>((ref) => "com.google.android.tts");
+part 'control_engine_widget.g.dart';
+
+@riverpod
+class EngineState extends _$EngineState {
+  @override
+  String build() {
+    const initialEngine = "com.google.android.tts";
+    return initialEngine;
+  }
+
+  void update(String? engine) {
+    if (engine == null) return;
+    state = engine;
+  }
+}
 
 class ControlEngineWidget extends StatelessWidget {
   const ControlEngineWidget({super.key});
@@ -40,7 +54,7 @@ class ControlEngineWidget extends StatelessWidget {
               //     .update((state) => "en-US");
               ref
                   .read(engineStateProvider.notifier)
-                  .update((state) => selectedEngine as String?);
+                  .update(selectedEngine as String?);
             },
           ),
         );

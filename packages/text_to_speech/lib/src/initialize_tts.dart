@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:common/common.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:text_to_speech/src/control_engine_widget.dart';
 import 'package:text_to_speech/src/platform_state.dart';
@@ -11,9 +11,15 @@ import 'control_language_widget.dart';
 import 'text_to_speech_state.dart';
 import 'text_to_speech_widget_state.dart';
 
-final flutterTtsProvider = Provider((ref) => FlutterTts());
+part 'initialize_tts.g.dart';
 
-final initializedTtsProvider = Provider((ref) {
+@riverpod
+FlutterTts flutterTts(FlutterTtsRef ref) {
+  return FlutterTts();
+}
+
+@riverpod
+FlutterTts Function() initializedTts(InitializedTtsRef ref) {
   FlutterTts initTts() {
     final flutterTts = ref.watch(flutterTtsProvider);
     final isAndroid = ref.watch(PlatformState.isAndroidStateProvider);
@@ -32,8 +38,8 @@ final initializedTtsProvider = Provider((ref) {
         logger.d("handler: engine : $engine");
 
         // I/flutter ( 5385): engine : com.google.android.tts
-        unawaited(Future(() =>
-            ref.read(engineStateProvider.notifier).update((state) => engine)));
+        unawaited(Future(
+            () => ref.read(engineStateProvider.notifier).update(engine)));
       }
     }
 
@@ -49,13 +55,13 @@ final initializedTtsProvider = Provider((ref) {
         unawaited(Future(() => ref
             .read(TextToSpeechWidgetState.languageStateProvider.notifier)
             // .update((state) => voice["locale"])));
-            .update((state) => language)));
+            .update(language)));
       }
 
       flutterTts.isLanguageInstalled(language).then((value) {
         ref
             .read(isCurrentLanguageInstalledStateProvider.notifier)
-            .update((state) => value as bool);
+            .update(value as bool);
       });
     }
 
@@ -104,7 +110,7 @@ final initializedTtsProvider = Provider((ref) {
         logger.d("countup-junp-no");
         unawaited(Future(() => ref
             .read(TextToSpeechWidgetState.currentTextPointProvider.notifier)
-            .update((state) => state + 1)));
+            .increment()));
       }
     });
 
@@ -141,4 +147,4 @@ final initializedTtsProvider = Provider((ref) {
   }
 
   return initTts;
-});
+}

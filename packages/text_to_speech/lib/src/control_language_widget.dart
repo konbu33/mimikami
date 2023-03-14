@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'platform_state.dart';
 import 'text_to_speech_widget_state.dart';
 import 'tts_repository_impl.dart';
 
-final isCurrentLanguageInstalledStateProvider =
-    StateProvider<bool>((ref) => false);
+part 'control_language_widget.g.dart';
+
+@riverpod
+class IsCurrentLanguageInstalledState
+    extends _$IsCurrentLanguageInstalledState {
+  @override
+  bool build() {
+    return false;
+  }
+
+  void update(bool? isInstalled) {
+    if (isInstalled == null) return;
+    state = isInstalled;
+  }
+}
 
 class ControlLanguageWidget extends StatelessWidget {
   const ControlLanguageWidget({super.key});
@@ -45,7 +59,7 @@ class ControlLanguageWidget extends StatelessWidget {
                     ref
                         .read(TextToSpeechWidgetState
                             .languageStateProvider.notifier)
-                        .update((state) => selectedType);
+                        .update(selectedType);
 
                     ttsRepository.setLanguage(language!);
                     if (isAndroid) {
@@ -53,7 +67,7 @@ class ControlLanguageWidget extends StatelessWidget {
                         ref
                             .read(isCurrentLanguageInstalledStateProvider
                                 .notifier)
-                            .update((state) => value as bool);
+                            .update(value as bool);
                       });
                     }
                   },

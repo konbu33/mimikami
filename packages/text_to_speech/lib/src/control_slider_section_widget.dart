@@ -27,14 +27,14 @@ class SliderSectionWidgetParts {
         onChanged: (newVolume) {
           ref
               .read(TextToSpeechWidgetState.volumeStateProvider.notifier)
-              .update((state) => newVolume);
+              .update(newVolume);
         },
         min: 0.0,
         max: 1.0,
         divisions: 10,
         label: "volume",
         activeColor: Colors.blue,
-        stateProvider: TextToSpeechWidgetState.volumeStateProvider,
+        value: ref.watch(TextToSpeechWidgetState.volumeStateProvider),
       );
     });
 
@@ -49,14 +49,14 @@ class SliderSectionWidgetParts {
         onChanged: (newPitch) {
           ref
               .read(TextToSpeechWidgetState.pitchStateProvider.notifier)
-              .update((state) => newPitch);
+              .update(newPitch);
         },
         min: 0.5,
         max: 2.0,
         divisions: 15,
         label: "pitch",
         activeColor: Colors.red,
-        stateProvider: TextToSpeechWidgetState.pitchStateProvider,
+        value: ref.watch(TextToSpeechWidgetState.pitchStateProvider),
       );
     });
 
@@ -69,14 +69,14 @@ class SliderSectionWidgetParts {
         onChanged: (newRate) {
           ref
               .read(TextToSpeechWidgetState.rateStateProvider.notifier)
-              .update((state) => newRate);
+              .update(newRate);
         },
         min: 0.0,
         max: 1.0,
         divisions: 10,
         label: "rate",
         activeColor: Colors.green,
-        stateProvider: TextToSpeechWidgetState.rateStateProvider,
+        value: ref.watch(TextToSpeechWidgetState.rateStateProvider),
       );
     });
 
