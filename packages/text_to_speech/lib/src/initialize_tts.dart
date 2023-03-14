@@ -13,7 +13,7 @@ import 'text_to_speech_widget_state.dart';
 
 final flutterTtsProvider = Provider((ref) => FlutterTts());
 
-final initializedTtsProvider = Provider((ref) {
+final initializedTtsProvider = Provider.autoDispose((ref) {
   FlutterTts initTts() {
     final flutterTts = ref.watch(flutterTtsProvider);
     final isAndroid = ref.watch(PlatformState.isAndroidStateProvider);

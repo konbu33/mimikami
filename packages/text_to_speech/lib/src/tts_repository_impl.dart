@@ -5,7 +5,7 @@ import 'package:text_to_speech/src/initialize_tts.dart';
 
 import 'tts_repository.dart';
 
-final ttsRepositoryProvider = Provider((ref) {
+final ttsRepositoryProvider = Provider.autoDispose((ref) {
   final initTts = ref.watch(initializedTtsProvider);
   return TtsRepositoryImpl(flutterTts: initTts());
 });

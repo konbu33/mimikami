@@ -148,7 +148,7 @@ class TextToSpeechWidgetState {
   // 責務：pause操作時の処理
   //
   // --------------------------------------------------
-  static final pausedProvider = Provider<void>((ref) async {
+  static final pausedProvider = Provider.autoDispose<void>((ref) async {
     final ttsState = ref.watch(ttsStateNotifierProvider);
     if (ttsState.value != EnumTtsState.paused) return;
 
@@ -163,7 +163,7 @@ class TextToSpeechWidgetState {
   // 責務：stop操作時の処理
   //
   // --------------------------------------------------
-  static final stoppedProvider = Provider<void>((ref) async {
+  static final stoppedProvider = Provider.autoDispose<void>((ref) async {
     final ttsState = ref.watch(ttsStateNotifierProvider);
     if (ttsState.value != EnumTtsState.stopped) return;
 
@@ -181,7 +181,7 @@ class TextToSpeechWidgetState {
   // 責務：junping操作時の処理
   //
   // --------------------------------------------------
-  static final junpingProvider = Provider<void>((ref) async {
+  static final junpingProvider = Provider.autoDispose<void>((ref) async {
     final ttsState = ref.watch(ttsStateNotifierProvider);
     if (ttsState.value != EnumTtsState.junping) return;
 
