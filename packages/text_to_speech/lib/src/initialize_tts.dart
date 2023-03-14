@@ -18,7 +18,8 @@ FlutterTts flutterTts(FlutterTtsRef ref) {
   return FlutterTts();
 }
 
-final initializedTtsProvider = Provider.autoDispose((ref) {
+@riverpod
+FlutterTts Function() initializedTts(InitializedTtsRef ref) {
   FlutterTts initTts() {
     final flutterTts = ref.watch(flutterTtsProvider);
     final isAndroid = ref.watch(PlatformState.isAndroidStateProvider);
@@ -146,4 +147,4 @@ final initializedTtsProvider = Provider.autoDispose((ref) {
   }
 
   return initTts;
-});
+}
