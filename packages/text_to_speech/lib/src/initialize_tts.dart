@@ -55,7 +55,7 @@ FlutterTts Function() initializedTts(InitializedTtsRef ref) {
         unawaited(Future(() => ref
             .read(TextToSpeechWidgetState.languageStateProvider.notifier)
             // .update((state) => voice["locale"])));
-            .update((state) => language)));
+            .update(language)));
       }
 
       flutterTts.isLanguageInstalled(language).then((value) {
@@ -110,7 +110,7 @@ FlutterTts Function() initializedTts(InitializedTtsRef ref) {
         logger.d("countup-junp-no");
         unawaited(Future(() => ref
             .read(TextToSpeechWidgetState.currentTextPointProvider.notifier)
-            .update((state) => state + 1)));
+            .increment()));
       }
     });
 

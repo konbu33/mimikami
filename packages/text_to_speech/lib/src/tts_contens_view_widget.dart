@@ -27,7 +27,7 @@ class TtsContentsViewWidget extends HookConsumerWidget {
       // 読み上げ対象のコンテンツを登録
       unawaited(Future(() => ref
           .read(TextToSpeechWidgetState.newVoiceTextStateProvider.notifier)
-          .update((state) => contents)));
+          .update(contents)));
 
       // 読み上げ対象のコンテンツを配列化したデータを取得
       final currentTextList =
@@ -63,7 +63,7 @@ class TtsContentsViewWidget extends HookConsumerWidget {
                     ref
                         .read(TextToSpeechWidgetState
                             .currentTextPointProvider.notifier)
-                        .update((state) => index);
+                        .update(index);
                   },
                   child: Text(currentTextList[index], style: textStyle),
                 ),

@@ -59,7 +59,7 @@ class ControlLanguageWidget extends StatelessWidget {
                     ref
                         .read(TextToSpeechWidgetState
                             .languageStateProvider.notifier)
-                        .update((state) => selectedType);
+                        .update(selectedType);
 
                     ttsRepository.setLanguage(language!);
                     if (isAndroid) {
