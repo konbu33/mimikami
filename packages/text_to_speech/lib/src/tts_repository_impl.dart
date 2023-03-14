@@ -1,14 +1,17 @@
 import 'package:common/common.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:text_to_speech/src/initialize_tts.dart';
 
 import 'tts_repository.dart';
 
-final ttsRepositoryProvider = Provider.autoDispose((ref) {
+part 'tts_repository_impl.g.dart';
+
+@riverpod
+TtsRepository ttsRepository(TtsRepositoryRef ref) {
   final initTts = ref.watch(initializedTtsProvider);
   return TtsRepositoryImpl(flutterTts: initTts());
-});
+}
 
 class TtsRepositoryImpl implements TtsRepository {
   const TtsRepositoryImpl({required this.flutterTts});
