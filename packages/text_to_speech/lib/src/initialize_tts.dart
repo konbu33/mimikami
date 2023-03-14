@@ -32,8 +32,8 @@ final initializedTtsProvider = Provider((ref) {
         logger.d("handler: engine : $engine");
 
         // I/flutter ( 5385): engine : com.google.android.tts
-        unawaited(Future(() =>
-            ref.read(engineStateProvider.notifier).update((state) => engine)));
+        unawaited(Future(
+            () => ref.read(engineStateProvider.notifier).update(engine)));
       }
     }
 
