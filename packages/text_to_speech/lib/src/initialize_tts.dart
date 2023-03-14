@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:common/common.dart';
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
 import 'package:text_to_speech/src/control_engine_widget.dart';
 import 'package:text_to_speech/src/platform_state.dart';
@@ -11,7 +11,12 @@ import 'control_language_widget.dart';
 import 'text_to_speech_state.dart';
 import 'text_to_speech_widget_state.dart';
 
-final flutterTtsProvider = Provider((ref) => FlutterTts());
+part 'initialize_tts.g.dart';
+
+@riverpod
+FlutterTts flutterTts(FlutterTtsRef ref) {
+  return FlutterTts();
+}
 
 final initializedTtsProvider = Provider.autoDispose((ref) {
   FlutterTts initTts() {
