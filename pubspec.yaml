@@ -45,15 +45,6 @@ dependencies:
   article:
     path: packages/article
 
-  receive_share:
-    path: packages/receive_share
-
-  local_db:
-    path: packages/local_db
-
-  common:
-    path: packages/common
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

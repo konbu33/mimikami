@@ -185,7 +185,7 @@ packages:
     source: hosted
     version: "1.17.0"
   common:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "packages/common"
       relative: true
@@ -479,7 +479,7 @@ packages:
     source: hosted
     version: "2.0.1"
   local_db:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "packages/local_db"
       relative: true
@@ -694,7 +694,7 @@ packages:
     source: hosted
     version: "3.2.1"
   receive_share:
-    dependency: "direct main"
+    dependency: transitive
     description:
       path: "packages/receive_share"
       relative: true
