@@ -1,0 +1,7 @@
+br:
+  b:
+    - flutter pub run build_runner build -d
+    - echo "end build."
+
+  w:
+    - flutter pub run build_runner watch -d

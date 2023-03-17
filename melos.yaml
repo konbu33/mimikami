@@ -1,0 +1,8 @@
+name: mimikami
+
+packages:
+  - packages/**
+
+scripts:
+  analyze:
+    exec: flutter analyze .
