@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'article_state.freezed.dart';
 part 'article_state.g.dart';
@@ -32,4 +33,25 @@ class ArticleState with _$ArticleState {
 
   factory ArticleState.fromJson(Map<String, Object?> json) =>
       _$ArticleStateFromJson(json);
+}
+
+// --------------------------------------------------
+//
+// NewArticleState
+//
+// --------------------------------------------------
+@riverpod
+class NewArticleState extends _$NewArticleState {
+  @override
+  ArticleState? build() {
+    return null;
+  }
+
+  void initialize() {
+    state = null;
+  }
+
+  void update(ArticleState articleState) {
+    state = articleState;
+  }
 }

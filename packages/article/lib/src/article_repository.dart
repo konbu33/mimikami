@@ -23,8 +23,21 @@ class ArticleRepositoryDrift {
 
   final DriftDb instance;
 
-  Future<List<Article>> getAllarticles() async {
-    return await instance.select(instance.articles).get();
+  Future<List<ArticleState>> getAllarticles() async {
+    // get Article List from local db
+    final artcileList = await instance.select(instance.articles).get();
+
+    // Article to ArticleState
+    final artcileStateList = artcileList
+        .map((e) => ArticleState.create(
+              id: e.id,
+              uriString: e.uriString,
+              title: e.title,
+              contents: e.contents,
+            ))
+        .toList();
+
+    return artcileStateList;
   }
 
   Future<int> addArticle({
