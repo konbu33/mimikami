@@ -73,6 +73,7 @@ void reflectAddArticleStateToLocalDb(
     ReflectAddArticleStateToLocalDbRef ref) async {
   // URLを受け取る
   final sharedText = ref.watch(ReceiveShareWidgetState.sharedTextProvider);
+  if (sharedText.isEmpty) return;
 
   // WebScraping準備
   WebScraping webScraping = WebScraping();
