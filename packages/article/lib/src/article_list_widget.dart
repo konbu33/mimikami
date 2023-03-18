@@ -19,15 +19,9 @@ class ArticleListWidget extends StatelessWidget {
       builder: (context, ref, child) {
         //
 
-        // trigger：他アプリからURLがShareされてきたら、記事を記事一覧へ追加する。
-        ref.watch(reflectAddArticleStateListProvider);
+        // trigger：他アプリからURLがShareされてきたら、local_dbへ永続化する。
+        ref.watch(reflectAddArticleStateToLocalDbProvider);
 
-        // trigger：記事一覧に新規追加された記事を、ローカルDBへ保存する。
-        ref.watch(reflectAddArticleStateToLocaDbProvider);
-
-        // ref.invalidate(articleStateListNotifierProvider);
-        ref.invalidate(articleStateListNotifierProvider);
-        // ref.refresh(articleStateListNotifierProvider);
         final articleStateListNotifier =
             ref.watch(articleStateListNotifierProvider);
 
