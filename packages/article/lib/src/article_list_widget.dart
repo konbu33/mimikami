@@ -63,6 +63,8 @@ class ArticleWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
+        final articleStateList = ref.watch(articleStateListNotifierProvider);
+
         final articleDeleteMode =
             ref.watch(ArticlePageState.articleDeleteModeProvider);
 
@@ -106,6 +108,17 @@ class ArticleWidget extends StatelessWidget {
 
                         // 記事削除後、local_dbの記事一覧を取得する。
                         ref.invalidate(getAllArticleUsecaseProvider);
+
+                        // 最後の1記事を削除する場合、削除モードを解除する。
+                        logger.d(
+                            "articleStateListLength: ${articleStateList.value.length}");
+
+                        if (articleStateList.value.length <= 1) {
+                          ref
+                              .read(ArticlePageState
+                                  .articleDeleteModeProvider.notifier)
+                              .update(false);
+                        }
                       },
                       icon: const Icon(
                         Icons.remove_circle,

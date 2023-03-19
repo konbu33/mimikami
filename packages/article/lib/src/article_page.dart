@@ -5,6 +5,7 @@ import 'package:receive_share/receive_share.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'article_list_widget.dart';
+import 'article_state_list.dart';
 
 part 'article_page.g.dart';
 
@@ -48,22 +49,26 @@ class ArticlePage extends StatelessWidget {
         final articleDeleteMode =
             ref.watch(ArticlePageState.articleDeleteModeProvider);
 
+        final articleStateList = ref.watch(articleStateListNotifierProvider);
+
         logger.d("articleDeleteMode: $articleDeleteMode");
+        logger.d("articleStateListLength: ${articleStateList.value.length}");
 
         return GestureDetector(
           onTap: () {
-            if (articleDeleteMode) {
-              ref
-                  .read(ArticlePageState.articleDeleteModeProvider.notifier)
-                  .update(false);
-            }
+            if (!articleDeleteMode) return;
+
+            ref
+                .read(ArticlePageState.articleDeleteModeProvider.notifier)
+                .update(false);
           },
           onLongPress: () {
-            if (!articleDeleteMode) {
-              ref
-                  .read(ArticlePageState.articleDeleteModeProvider.notifier)
-                  .update(true);
-            }
+            if (articleStateList.value.isEmpty) return;
+            if (articleDeleteMode) return;
+
+            ref
+                .read(ArticlePageState.articleDeleteModeProvider.notifier)
+                .update(true);
           },
           child: Column(
             children: [
