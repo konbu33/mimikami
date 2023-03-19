@@ -12,7 +12,7 @@ class VibrationWidget extends StatefulWidget {
 class _VibrationWidgetState extends State<VibrationWidget>
     with SingleTickerProviderStateMixin {
   late final AnimationController controller;
-  late final Animation<Offset> animation;
+  late final Animation<double> animation;
 
   @override
   void initState() {
@@ -22,9 +22,9 @@ class _VibrationWidgetState extends State<VibrationWidget>
         duration: const Duration(milliseconds: 150), vsync: this)
       ..repeat(reverse: true);
 
-    // final tween = Tween(begin: 1.0, end: 1.5);
-    final tween = Tween<Offset>(
-        begin: const Offset(-0.004, 0.0), end: const Offset(0.004, 0.0));
+    final tween = Tween(begin: -0.001, end: 0.001);
+    // final tween = Tween<Offset>(
+    //     begin: const Offset(-0.004, 0.0), end: const Offset(0.004, 0.0));
 
     animation = tween.animate(CurvedAnimation(
       parent: controller,
@@ -40,9 +40,9 @@ class _VibrationWidgetState extends State<VibrationWidget>
 
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
+    return RotationTransition(
       // scale: controller.drive(Tween<double>(begin: 1.0, end: 1.2)),
-      position: animation,
+      turns: animation,
       child: widget.child,
       // child: Container(
       //   height: 100,
