@@ -1,11 +1,13 @@
-import 'package:article/src/article_repository.dart';
-import 'package:article/src/article_state.dart';
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:receive_share/receive_share.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'article_list_widget.dart';
+import 'article_state_list.dart';
+
+part 'article_page.g.dart';
 
 // --------------------------------------------------
 //
@@ -14,6 +16,19 @@ import 'article_list_widget.dart';
 // --------------------------------------------------
 class ArticlePageState {
   static const title = "article page";
+  static final articleDeleteModeProvider = _articleDeleteModeProvider;
+}
+
+@riverpod
+class _ArticleDeleteMode extends _$ArticleDeleteMode {
+  @override
+  bool build() {
+    return false;
+  }
+
+  void update(bool newMode) {
+    state = newMode;
+  }
 }
 
 // --------------------------------------------------
@@ -31,16 +46,38 @@ class ArticlePage extends StatelessWidget {
         title: ArticlePageParts.title(),
       ),
       body: Consumer(builder: (context, ref, child) {
-        return Column(
-          children: [
-            Expanded(child: ArticlePageParts.articleList()),
+        final articleDeleteMode =
+            ref.watch(ArticlePageState.articleDeleteModeProvider);
 
-            // このWidgetで、他アプリからShareしてもらったURLを受け取る。
-            ArticlePageParts.receiveShareWidget(),
+        final articleStateList = ref.watch(articleStateListNotifierProvider);
 
-            // local Db
-            ArticlePageParts.localDbWidget(),
-          ],
+        logger.d("articleDeleteMode: $articleDeleteMode");
+        logger.d("articleStateListLength: ${articleStateList.value.length}");
+
+        return GestureDetector(
+          onTap: () {
+            if (!articleDeleteMode) return;
+
+            ref
+                .read(ArticlePageState.articleDeleteModeProvider.notifier)
+                .update(false);
+          },
+          onLongPress: () {
+            if (articleStateList.value.isEmpty) return;
+            if (articleDeleteMode) return;
+
+            ref
+                .read(ArticlePageState.articleDeleteModeProvider.notifier)
+                .update(true);
+          },
+          child: Column(
+            children: [
+              Expanded(child: ArticlePageParts.articleList()),
+
+              // このWidgetで、他アプリからShareしてもらったURLを受け取る。
+              ArticlePageParts.receiveShareWidget(),
+            ],
+          ),
         );
       }),
     );
@@ -77,39 +114,6 @@ class ArticlePageParts {
   // このWidgetで、他アプリからShareしてもらったURLを受け取る。
   static Widget receiveShareWidget() {
     const widget = ReceiveShareWidget();
-    return widget;
-  }
-
-  // --------------------------------------------------
-  // localDbWidget
-  // --------------------------------------------------
-  static Widget localDbWidget() {
-    final widget = Consumer(builder: (context, ref, child) {
-      // final localDb = ref.watch(localDbDriftProvider);
-      // ref.watch(driftDbProvider);
-      // ref.watch(articleRepositoryProvider);
-      // final articleRepository = ref.watch(articleRepositoryProvider.notifier);
-      final articleRepository = ref.watch(articleRepositoryProvider);
-
-      return ElevatedButton(
-        onPressed: () async {
-          final artcileState = ArticleState.create(
-            id: DateTime.now().millisecondsSinceEpoch.toString(),
-            uriString: "uriString",
-            title: "title",
-            contents: "contents",
-          );
-
-          await articleRepository.addArticle(articleState: artcileState);
-
-          final res = await articleRepository.getAllarticles();
-          logger.d("localDbDrift data : $res");
-
-          // await articleRepository.close();
-        },
-        child: const Text("insert DB"),
-      );
-    });
     return widget;
   }
 }

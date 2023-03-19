@@ -46,3 +46,6 @@ app.*.map.json
 # build_runner
 *.freezed.dart
 *.g.dart
+
+# melos
+pubspec_overrides.yaml

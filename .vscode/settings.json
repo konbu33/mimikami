@@ -10,4 +10,5 @@
         "source.organizeImports": true,
         "source.addMissingImports": true
     },
+    "dart.runPubGetOnPubspecChanges": "never",
 }

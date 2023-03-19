@@ -11,7 +11,8 @@ class WebScraping {
   WebScraping();
 
   final controller = WindowController();
-  late final Uri uri;
+  // late final Uri uri;
+  Uri uri = Uri.parse("");
 
   // --------------------------------------------------
   // createUri
@@ -21,10 +22,10 @@ class WebScraping {
       const message = "uril is empty";
       logger.d(message);
 
-      const uriStringMock =
-          "https://zenn.dev/maguroburger/articles/flutter_scraping";
+      // const uriStringMock =
+      //     "https://zenn.dev/maguroburger/articles/flutter_scraping";
 
-      uri = Uri.parse(uriStringMock);
+      // uri = Uri.parse(uriStringMock);
       return;
     }
 
