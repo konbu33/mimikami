@@ -53,6 +53,14 @@ class ArticleRepositoryDrift {
         ));
   }
 
+  Future<int> deleteArticle({
+    required ArticleState articleState,
+  }) async {
+    return await (instance.delete(instance.articles)
+          ..where((tbl) => tbl.id.equals(articleState.id)))
+        .go();
+  }
+
   Future<void> close() async {
     return await instance.close();
   }

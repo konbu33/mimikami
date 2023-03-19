@@ -1,8 +1,12 @@
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:receive_share/receive_share.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'article_list_widget.dart';
+
+part 'article_page.g.dart';
 
 // --------------------------------------------------
 //
@@ -11,6 +15,19 @@ import 'article_list_widget.dart';
 // --------------------------------------------------
 class ArticlePageState {
   static const title = "article page";
+  static final articleDeleteModeProvider = _articleDeleteModeProvider;
+}
+
+@riverpod
+class _ArticleDeleteMode extends _$ArticleDeleteMode {
+  @override
+  bool build() {
+    return false;
+  }
+
+  void update(bool newMode) {
+    state = newMode;
+  }
 }
 
 // --------------------------------------------------
@@ -28,13 +45,34 @@ class ArticlePage extends StatelessWidget {
         title: ArticlePageParts.title(),
       ),
       body: Consumer(builder: (context, ref, child) {
-        return Column(
-          children: [
-            Expanded(child: ArticlePageParts.articleList()),
+        final articleDeleteMode =
+            ref.watch(ArticlePageState.articleDeleteModeProvider);
 
-            // このWidgetで、他アプリからShareしてもらったURLを受け取る。
-            ArticlePageParts.receiveShareWidget(),
-          ],
+        logger.d("articleDeleteMode: $articleDeleteMode");
+
+        return GestureDetector(
+          onTap: () {
+            if (articleDeleteMode) {
+              ref
+                  .read(ArticlePageState.articleDeleteModeProvider.notifier)
+                  .update(false);
+            }
+          },
+          onLongPress: () {
+            if (!articleDeleteMode) {
+              ref
+                  .read(ArticlePageState.articleDeleteModeProvider.notifier)
+                  .update(true);
+            }
+          },
+          child: Column(
+            children: [
+              Expanded(child: ArticlePageParts.articleList()),
+
+              // このWidgetで、他アプリからShareしてもらったURLを受け取る。
+              ArticlePageParts.receiveShareWidget(),
+            ],
+          ),
         );
       }),
     );
