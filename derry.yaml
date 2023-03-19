@@ -5,3 +5,25 @@ br:
 
   w:
     - flutter pub run build_runner watch -d
+
+gitpreb:
+  - echo \# remote branch
+  - git fetch -p
+
+  - echo \# rebase from current branch
+  - git br -vv
+  - git pull --rebase origin dev
+  - git br -vv
+
+  - echo \# get current branch name
+  - currentBranch=\$(git br | grep -E "^\*" | sed 's/* //g')
+  - echo "currentBranch = \$currentBranch"
+
+  - echo \# rebase from dev branch
+  - git sw dev
+  - git pull --rebase origin dev
+  - git br -vv
+
+  - echo \# switch current branch
+  - git sw $currentBranch
+  - git br -vv
