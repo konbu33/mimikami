@@ -113,12 +113,11 @@ class ArticleWidget extends StatelessWidget {
                         logger.d(
                             "articleStateListLength: ${articleStateList.value.length}");
 
-                        if (articleStateList.value.length <= 1) {
-                          ref
-                              .read(ArticlePageState
-                                  .articleDeleteModeProvider.notifier)
-                              .update(false);
-                        }
+                        if (articleStateList.value.length > 1) return;
+                        ref
+                            .read(ArticlePageState
+                                .articleDeleteModeProvider.notifier)
+                            .update(false);
                       },
                       icon: const Icon(
                         Icons.remove_circle,
