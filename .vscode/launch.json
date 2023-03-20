@@ -7,7 +7,8 @@
         {
             "name": "mimikami",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "program": "lib/main.dart"
         },
         {
             "name": "mimikami (profile mode)",
