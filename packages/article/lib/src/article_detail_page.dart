@@ -34,12 +34,8 @@ class ArticleDetailPage extends HookConsumerWidget {
         ),
       ),
       body: Center(
-        child: Column(
-          children: <Widget>[
-            TextToSpeechWidget(
-              contents: currentArticleState.contents,
-            ),
-          ],
+        child: TextToSpeechWidget(
+          contents: currentArticleState.contents,
         ),
       ),
     );

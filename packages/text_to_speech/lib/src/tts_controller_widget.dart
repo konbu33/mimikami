@@ -1,10 +1,13 @@
 import 'package:common/common.dart';
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'control_button_section_widget.dart';
 import 'control_engine_widget.dart';
 import 'control_language_widget.dart';
 import 'control_slider_section_widget.dart';
+import 'text_to_speech_state.dart';
+import 'text_to_speech_widget_state.dart';
 
 class TtsControllerWidget extends StatefulWidget {
   const TtsControllerWidget({super.key});
@@ -31,6 +34,9 @@ class _TtsControllerWidgetState extends State<TtsControllerWidget> {
         setState(() {});
       },
       child: Container(
+        height: isVisible
+            ? MediaQuery.of(context).size.height * 0.12 * 3.5 * 1.1
+            : MediaQuery.of(context).size.height * 0.12 * 1.5,
         padding:
             !isVisible ? EdgeInsets.zero : const EdgeInsets.only(bottom: 30),
         decoration: BoxDecoration(
@@ -53,6 +59,7 @@ class _TtsControllerWidgetState extends State<TtsControllerWidget> {
                       ControlSliderSectionWidget(),
                     ],
                   ),
+            TtsControllerWidgetParts.ttsStateWidget(),
           ],
         ),
       ),
@@ -61,9 +68,38 @@ class _TtsControllerWidgetState extends State<TtsControllerWidget> {
 }
 
 class TtsControllerWidgetParts {
+  //
+
+  static Widget ttsStateWidget() {
+    //
+    final widget = Consumer(builder: (context, ref, child) {
+      final currentTextPoint =
+          ref.watch(TextToSpeechWidgetState.currentTextPointProvider);
+
+      final ttsState = ref.watch(ttsStateNotifierProvider);
+
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.only(left: 60),
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: Text("状態: ${ttsState.value.toString().split(".").last}"),
+          ),
+          Container(
+            padding: const EdgeInsets.only(left: 30),
+            width: MediaQuery.of(context).size.width * 0.5,
+            child: Text("読上げ行: $currentTextPoint 行目"),
+          ),
+        ],
+      );
+    });
+
+    return widget;
+  }
+
   static Widget barWidget() {
     //
-
     final widget = Container(
       margin: const EdgeInsets.fromLTRB(130, 15, 130, 10),
       decoration: BoxDecoration(
