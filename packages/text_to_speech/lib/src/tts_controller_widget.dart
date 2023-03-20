@@ -16,8 +16,42 @@ class TtsControllerWidget extends StatefulWidget {
   State<TtsControllerWidget> createState() => _TtsControllerWidgetState();
 }
 
-class _TtsControllerWidgetState extends State<TtsControllerWidget> {
+class _TtsControllerWidgetState extends State<TtsControllerWidget>
+    with SingleTickerProviderStateMixin {
   bool isVisible = false;
+
+  late AnimationController controller;
+  late Animation<double> animation;
+
+  @override
+  void initState() {
+    controller = AnimationController(
+      duration: const Duration(milliseconds: 100),
+      vsync: this,
+    );
+
+    final tween = Tween(begin: 1.5, end: 4.0);
+
+    // animation = controller.drive(tween);
+    animation = tween.animate(
+      CurvedAnimation(
+        parent: controller,
+        curve: Curves.easeInOut,
+      ),
+    );
+
+    logger.d("initState: $isVisible, animation value: ${animation.value}");
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    logger.d("dispose: $isVisible, animation value: ${animation.value}");
+
+    controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,41 +61,51 @@ class _TtsControllerWidgetState extends State<TtsControllerWidget> {
       //   isVisible = !isVisible;
       //   setState(() {});
       // },
-      onVerticalDragEnd: (details) {
+
+      onVerticalDragEnd: (details) async {
         logger.d("onVerticalDragEnd: ${details.primaryVelocity}");
         final verocity = details.primaryVelocity ?? 0;
-        verocity < 0 ? isVisible = true : isVisible = false;
+
+        if (verocity < 0) {
+          await controller.forward();
+          verocity < 0 ? isVisible = true : isVisible = false;
+        } else {
+          verocity < 0 ? isVisible = true : isVisible = false;
+          await controller.reverse();
+        }
+
         setState(() {});
       },
-      child: Container(
-        height: isVisible
-            ? MediaQuery.of(context).size.height * 0.12 * 3.5 * 1.1
-            : MediaQuery.of(context).size.height * 0.12 * 1.5,
-        padding:
-            !isVisible ? EdgeInsets.zero : const EdgeInsets.only(bottom: 30),
-        decoration: BoxDecoration(
-          color: Colors.grey[200],
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
-        ),
-        child: Column(
-          children: [
-            TtsControllerWidgetParts.barWidget(),
-            const ControlButtonSectionWidget(),
-            !isVisible
-                ? const SizedBox()
-                : Column(
-                    children: const [
-                      ControlEngineWidget(),
-                      ControlLanguageWidget(),
-                      ControlSliderSectionWidget(),
-                    ],
-                  ),
-            TtsControllerWidgetParts.ttsStateWidget(),
-          ],
-        ),
+      child: AnimatedBuilder(
+        animation: animation,
+        builder: (context, child) {
+          return Container(
+            height: isVisible ? 100 * animation.value : 100 * animation.value,
+            decoration: BoxDecoration(
+              color: Colors.grey[200],
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(20),
+                topRight: Radius.circular(20),
+              ),
+            ),
+            child: Column(
+              children: [
+                TtsControllerWidgetParts.barWidget(),
+                const ControlButtonSectionWidget(),
+                !isVisible
+                    ? const SizedBox()
+                    : Column(
+                        children: const [
+                          ControlEngineWidget(),
+                          ControlLanguageWidget(),
+                          ControlSliderSectionWidget(),
+                        ],
+                      ),
+                TtsControllerWidgetParts.ttsStateWidget(),
+              ],
+            ),
+          );
+        },
       ),
     );
   }

@@ -42,21 +42,18 @@ class ControlEngineWidget extends StatelessWidget {
         final ttsRepository = ref.watch(ttsRepositoryProvider);
         final engine = ref.watch(engineStateProvider);
 
-        return Container(
-          padding: const EdgeInsets.only(top: 50.0),
-          child: DropdownButton(
-            value: engine,
-            items: getEnginesDropDownMenuItems(engines),
-            onChanged: (Object? selectedEngine) async {
-              await ttsRepository.setEngine(selectedEngine! as String);
-              // ref
-              //     .read(TextToSpeechWidgetState.languageStateProvider.notifier)
-              //     .update((state) => "en-US");
-              ref
-                  .read(engineStateProvider.notifier)
-                  .update(selectedEngine as String?);
-            },
-          ),
+        return DropdownButton(
+          value: engine,
+          items: getEnginesDropDownMenuItems(engines),
+          onChanged: (Object? selectedEngine) async {
+            await ttsRepository.setEngine(selectedEngine! as String);
+            // ref
+            //     .read(TextToSpeechWidgetState.languageStateProvider.notifier)
+            //     .update((state) => "en-US");
+            ref
+                .read(engineStateProvider.notifier)
+                .update(selectedEngine as String?);
+          },
         );
       });
     }
@@ -65,7 +62,7 @@ class ControlEngineWidget extends StatelessWidget {
       final ttsRepository = ref.watch(ttsRepositoryProvider);
       final isAndroid = ref.watch(PlatformState.isAndroidStateProvider);
 
-      if (!isAndroid) return const SizedBox(width: 0, height: 0);
+      if (!isAndroid) return const SizedBox(height: 30);
 
       return FutureBuilder<dynamic>(
         future: ttsRepository.getEngines(),
