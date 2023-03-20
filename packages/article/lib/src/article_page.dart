@@ -15,7 +15,7 @@ part 'article_page.g.dart';
 //
 // --------------------------------------------------
 class ArticlePageState {
-  static const title = "article page";
+  static const title = "記事一覧";
   static final articleDeleteModeProvider = _articleDeleteModeProvider;
 }
 
