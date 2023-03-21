@@ -6,6 +6,9 @@ br:
   w:
     - flutter pub run build_runner watch -d
 
+flutter_launcher_icons:
+  - flutter pub run flutter_launcher_icons -f flutter_launcher_icons.yaml
+
 gitpreb:
   - echo \# remote branch
   - git fetch -p
