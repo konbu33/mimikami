@@ -10,23 +10,23 @@ flutter_launcher_icons:
   - flutter pub run flutter_launcher_icons -f flutter_launcher_icons.yaml
 
 gitpreb:
-  - echo \# remote branch
-  - git fetch -p
+  echo \# remote branch;
+  git fetch -p;
+  
+  echo \# rebase from current branch;
+  git br -vv;
+  git pull --rebase origin dev;
+  git br -vv;
 
-  - echo \# rebase from current branch
-  - git br -vv
-  - git pull --rebase origin dev
-  - git br -vv
+  echo \# get current branch name;
+  currentBranch=$(git br | grep -E "^\*" | sed 's/* //g');
+  echo "currentBranch :\ $currentBranch";
 
-  - echo \# get current branch name
-  - currentBranch=\$(git br | grep -E "^\*" | sed 's/* //g')
-  - echo "currentBranch = \$currentBranch"
+  echo \# rebase from dev branch;
+  git sw dev;
+  git pull --rebase origin dev;
+  git br -vv;
 
-  - echo \# rebase from dev branch
-  - git sw dev
-  - git pull --rebase origin dev
-  - git br -vv
-
-  - echo \# switch current branch
-  - git sw $currentBranch
-  - git br -vv
+  echo \# switch current branch;
+  git sw $currentBranch;
+  git br -vv;
