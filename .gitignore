@@ -49,3 +49,6 @@ app.*.map.json
 
 # melos
 pubspec_overrides.yaml
+
+# flutter build ipa
+ExportOptions.plist
