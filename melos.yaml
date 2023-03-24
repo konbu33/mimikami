@@ -10,7 +10,5 @@ scripts:
     exec: flutter pub run build_runner build -d 
   build_runner_watch_d:
     exec: flutter pub run build_runner watch -d 
-  clean:
-    exec: flutter clean
-  pub_get:
-    exec: flutter pub get 
+  clean_and_pub_get:
+    exec: flutter clean; flutter pub get 
