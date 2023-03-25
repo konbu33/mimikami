@@ -57,13 +57,14 @@ class ReceiveShareWidget extends StatelessWidget {
       builder: (context, ref, child) {
         // 他アプリからURLがShareされてくるのを待機
         ref.watch(ReceiveShareWidgetState.intentDataStreamSubscriptionProvider);
-        final sharedText =
-            ref.watch(ReceiveShareWidgetState.sharedTextProvider);
+        // final sharedText =
+        //     ref.watch(ReceiveShareWidgetState.sharedTextProvider);
 
-        return SizedBox(
-          height: 100,
-          child: Text("sharedText : $sharedText"),
-        );
+        return const SizedBox();
+        // return SizedBox(
+        //   height: 100,
+        //   child: Text("sharedText : $sharedText"),
+        // );
       },
     );
   }
