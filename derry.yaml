@@ -30,3 +30,6 @@ gitpreb:
   echo \# switch current branch;
   git sw $currentBranch;
   git br -vv;
+
+flutter_build_ipa:
+  ./tool/flutter_build_ipa.sh

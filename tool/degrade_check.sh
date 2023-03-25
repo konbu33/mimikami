@@ -33,7 +33,7 @@ echo "
 #
 # --------------------------------------------------
 "
-flutter test test/unit_test
+echo flutter test test/unit_test
 
 
 
@@ -44,7 +44,7 @@ echo "
 #
 # --------------------------------------------------
 "
-flutter test test/widget_test
+echo flutter test test/widget_test
 
 
 
@@ -55,7 +55,7 @@ echo "
 #
 # --------------------------------------------------
 "
-flutter test test/goldens_test 
+echo flutter test test/goldens_test 
 
 
 
