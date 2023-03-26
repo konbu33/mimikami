@@ -39,7 +39,7 @@ _intentDataStreamSubscription(_IntentDataStreamSubscriptionRef ref) {
     logger.d("received Shared: $value");
     ref.read(_sharedTextProvider.notifier).update(value);
   }, onError: (err) {
-    logger.d("getLinkStream error: $err");
+    logger.e("received Shared error: $err");
   });
 }
 
@@ -57,8 +57,14 @@ class ReceiveShareWidget extends StatelessWidget {
       builder: (context, ref, child) {
         // 他アプリからURLがShareされてくるのを待機
         ref.watch(ReceiveShareWidgetState.intentDataStreamSubscriptionProvider);
+        // final sharedText =
+        //     ref.watch(ReceiveShareWidgetState.sharedTextProvider);
 
         return const SizedBox();
+        // return SizedBox(
+        //   height: 100,
+        //   child: Text("sharedText : $sharedText"),
+        // );
       },
     );
   }

@@ -5,3 +5,37 @@ br:
 
   w:
     - flutter pub run build_runner watch -d
+
+flutter_launcher_icons:
+  - flutter pub run flutter_launcher_icons -f flutter_launcher_icons.yaml
+
+gitpreb:
+  echo \# remote branch;
+  git fetch -p;
+  
+  echo \# rebase from current branch;
+  git br -vv;
+  git pull --rebase origin dev;
+  git br -vv;
+
+  echo \# get current branch name;
+  currentBranch=$(git br | grep -E "^\*" | sed 's/* //g');
+  echo "currentBranch :\ $currentBranch";
+
+  echo \# rebase from dev branch;
+  git sw dev;
+  git pull --rebase origin dev;
+  git br -vv;
+
+  echo \# switch current branch;
+  git sw $currentBranch;
+  git br -vv;
+
+flutter_build_ipa:
+  ./tool/flutter_build_ipa.sh
+
+flutter_build_appbundle:
+  ./tool/flutter_build_appbundle.sh
+
+flutter_build_apk:
+  ./tool/flutter_build_apk.sh

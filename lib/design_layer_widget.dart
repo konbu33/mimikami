@@ -18,6 +18,12 @@ class DesignLayerWidget extends StatelessWidget {
         ).copyWith(
           secondary: Colors.blue,
         ),
+      ).copyWith(
+        appBarTheme: const AppBarTheme(
+          color: Colors.transparent,
+          elevation: 0,
+          iconTheme: IconThemeData(color: Colors.black),
+        ),
       ),
       child: child,
     );

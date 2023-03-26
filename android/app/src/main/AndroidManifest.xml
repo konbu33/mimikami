@@ -8,10 +8,13 @@
         </intent>
     </queries>
 
-   <application
-        android:label="mimikami"
+    <!-- allow internet access -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:label="Mimikami"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:exported="true"

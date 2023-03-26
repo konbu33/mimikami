@@ -35,7 +35,6 @@ class TtsContentsViewWidget extends HookConsumerWidget {
 
       return Container(
         margin: const EdgeInsets.symmetric(horizontal: 30),
-        height: MediaQuery.of(context).size.height * 0.85,
 
         // 配列化したデータを表示(onTap可能にする)
         child: ListView.builder(

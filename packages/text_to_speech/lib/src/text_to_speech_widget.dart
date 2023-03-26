@@ -5,7 +5,6 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:text_to_speech/src/tts_repository_impl.dart';
 
 import 'initialize_tts.dart';
-import 'text_to_speech_state.dart';
 import 'text_to_speech_widget_state.dart';
 import 'tts_contens_view_widget.dart';
 import 'tts_controller_widget.dart';
@@ -49,37 +48,12 @@ class _TextToSpeechWidgetState extends ConsumerState<TextToSpeechWidget> {
     ref.watch(TextToSpeechWidgetState.stoppedProvider);
     ref.watch(TextToSpeechWidgetState.junpingProvider);
 
-    return Column(
+    return Stack(
+      alignment: AlignmentDirectional.bottomCenter,
       children: [
-        TextToSpeechWidgetParts.ttsStateWidget(),
-        Stack(
-          alignment: AlignmentDirectional.bottomCenter,
-          children: [
-            TtsContentsViewWidget(contents: widget.contents),
-            const TtsControllerWidget(),
-          ],
-        ),
+        TtsContentsViewWidget(contents: widget.contents),
+        const TtsControllerWidget(),
       ],
     );
-  }
-}
-
-class TextToSpeechWidgetParts {
-  static Widget ttsStateWidget() {
-    final widget = Consumer(builder: (context, ref, child) {
-      final currentTextPoint =
-          ref.watch(TextToSpeechWidgetState.currentTextPointProvider);
-
-      final ttsState = ref.watch(ttsStateNotifierProvider);
-
-      return Column(
-        children: [
-          Text("currentTextPoint: $currentTextPoint"),
-          Text("ttsState: ${ttsState.value}"),
-        ],
-      );
-    });
-
-    return widget;
   }
 }
