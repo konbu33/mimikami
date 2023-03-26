@@ -33,3 +33,9 @@ gitpreb:
 
 flutter_build_ipa:
   ./tool/flutter_build_ipa.sh
+
+flutter_build_appbundle:
+  ./tool/flutter_build_appbundle.sh
+
+flutter_build_apk:
+  ./tool/flutter_build_apk.sh
