@@ -12,3 +12,9 @@ scripts:
     exec: flutter pub run build_runner watch -d 
   clean_and_pub_get:
     exec: flutter clean; flutter pub get 
+
+  test:
+    exec: flutter test 
+    packageFilters:
+      scope: "web_scraping" 
+
