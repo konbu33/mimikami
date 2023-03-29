@@ -19,7 +19,7 @@ class WebScraping {
   // --------------------------------------------------
   void createUri(String uriString) {
     if (uriString.isEmpty) {
-      const message = "uril is empty";
+      const message = "uri is empty";
       logger.d(message);
 
       // const uriStringMock =
@@ -36,6 +36,12 @@ class WebScraping {
   // openHttp
   // --------------------------------------------------
   Future<void> openHttp() async {
+    if (uri.toString().isEmpty) {
+      const message = "uri is empty";
+      logger.d(message);
+      return;
+    }
+
     await controller.openHttp(uri: uri);
   }
 
