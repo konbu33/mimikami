@@ -1,16 +1,25 @@
-# mimikami
+# Mimikami
 
-A new Flutter project.
+Web サイトの文章を読み上げるアプリです。
 
-## Getting Started
+## 【機能】
 
-This project is a starting point for a Flutter application.
+- 文章を読み上げます。
+- 文章をダブルタップすると、その文章から読み上げます。
+- 読み上げスピードを調整できます。
 
-A few resources to get you started if this is your first Flutter project:
+## 【使用方法】
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### 記事追加
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1.  ブラウザで Web サイトを開きます。
+2.  本アプリへ共有します。
+3.  共有した Web サイトの文章が本アプリに追加されます。
+4.  追加された文章を読み上げることができます。
+
+### 記事削除
+
+1. 記事一覧画面で画面を長押しすると、記事が震えだします。
+2. 記事左上にマイナスアイコンが表示されるため、そのアイコンをタップして削除します。
+
+以上
