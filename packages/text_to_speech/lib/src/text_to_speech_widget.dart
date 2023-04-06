@@ -6,7 +6,7 @@ import 'package:text_to_speech/src/tts_repository_impl.dart';
 
 import 'initialize_tts.dart';
 import 'text_to_speech_widget_state.dart';
-import 'tts_contens_view_widget.dart';
+import 'tts_contents_view_widget.dart';
 import 'tts_controller_widget.dart';
 
 class TextToSpeechWidget extends StatefulHookConsumerWidget {
