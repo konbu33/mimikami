@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -44,7 +45,7 @@ class _BackForwardWidgetState extends ConsumerState<BackForwardWidget> {
         ),
         // onDoubleTap: widget.onDoubleTap,
         onTapDown: (tapDownDetails) {
-          print("tapDownDetails: ${tapDownDetails.localPosition}");
+          logger.d("tapDownDetails: ${tapDownDetails.localPosition}");
           pressCount++;
           setState(() {});
 
