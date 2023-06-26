@@ -140,6 +140,11 @@ class _CurrentTextPoint extends _$CurrentTextPoint {
   void increment() {
     state = state + 1;
   }
+
+  void decrement() {
+    if (state <= 0) return;
+    state = state - 1;
+  }
 }
 
 // --------------------------------------------------
