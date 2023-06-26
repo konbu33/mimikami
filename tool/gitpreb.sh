@@ -12,7 +12,7 @@ echo "currentBranch : $currentBranch"
 
 # rebase from dev branch
 git sw dev
-git pull --rebase
+git pull --rebase origin dev
 git br -vv
 
 # switch current branch
