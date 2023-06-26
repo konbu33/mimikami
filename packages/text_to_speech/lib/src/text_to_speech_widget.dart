@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:text_to_speech/src/tts_repository_impl.dart';
 
+import 'back_forward_widget.dart';
 import 'initialize_tts.dart';
+import 'text_to_speech_state.dart';
 import 'text_to_speech_widget_state.dart';
 import 'tts_contents_view_widget.dart';
 import 'tts_controller_widget.dart';
@@ -52,6 +54,42 @@ class _TextToSpeechWidgetState extends ConsumerState<TextToSpeechWidget> {
       alignment: AlignmentDirectional.bottomCenter,
       children: [
         TtsContentsViewWidget(contents: widget.contents),
+        BackForwardWidget(
+          isRightSide: false,
+          icon: Icons.keyboard_double_arrow_left_outlined,
+          onDoubleTap: () {
+            // logger.d("onDoubleTap: Left");
+
+            if (ref.read(ttsStateNotifierProvider).value ==
+                EnumTtsState.playing) {
+              ref
+                  .read(ttsStateNotifierProvider.notifier)
+                  .updateTssState(EnumTtsState.paused);
+            }
+
+            ref
+                .read(TextToSpeechWidgetState.currentTextPointProvider.notifier)
+                .decrement();
+          },
+        ),
+        BackForwardWidget(
+          isRightSide: true,
+          icon: Icons.keyboard_double_arrow_right_outlined,
+          onDoubleTap: () {
+            // logger.d("onDoubleTap: Right");
+
+            if (ref.read(ttsStateNotifierProvider).value ==
+                EnumTtsState.playing) {
+              ref
+                  .read(ttsStateNotifierProvider.notifier)
+                  .updateTssState(EnumTtsState.paused);
+            }
+
+            ref
+                .read(TextToSpeechWidgetState.currentTextPointProvider.notifier)
+                .increment();
+          },
+        ),
         const TtsControllerWidget(),
       ],
     );
