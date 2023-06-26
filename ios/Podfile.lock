@@ -15,14 +15,14 @@ PODS:
     - FlutterMacOS
   - receive_sharing_intent (0.0.1):
     - Flutter
-  - sqlite3 (3.41.0):
-    - sqlite3/common (= 3.41.0)
-  - sqlite3/common (3.41.0)
-  - sqlite3/fts5 (3.41.0):
+  - sqlite3 (3.41.2):
+    - sqlite3/common (= 3.41.2)
+  - sqlite3/common (3.41.2)
+  - sqlite3/fts5 (3.41.2):
     - sqlite3/common
-  - sqlite3/perf-threadsafe (3.41.0):
+  - sqlite3/perf-threadsafe (3.41.2):
     - sqlite3/common
-  - sqlite3/rtree (3.41.0):
+  - sqlite3/rtree (3.41.2):
     - sqlite3/common
   - sqlite3_flutter_libs (0.0.1):
     - Flutter
@@ -70,10 +70,10 @@ SPEC CHECKSUMS:
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   path_provider_foundation: c68054786f1b4f3343858c1e1d0caaded73f0be9
   receive_sharing_intent: c0d87310754e74c0f9542947e7cbdf3a0335a3b1
-  sqlite3: d31b2b69d59bd1b4ab30e5c92eb18fd8e82fa392
+  sqlite3: fd89671d969f3e73efe503ce203e28b016b58f68
   sqlite3_flutter_libs: 78f93cb854d4680595bc2c63c57209a104b2efb1
   webview_flutter_wkwebview: d08f59cde5e8402c345c0bdda35ac0031352dcae
 
-PODFILE CHECKSUM: c2b7d76124192629287fe4c568f26453c4fcfb59
+PODFILE CHECKSUM: b78661b02536d69213efb992b5b2236a3b6666b6
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1
