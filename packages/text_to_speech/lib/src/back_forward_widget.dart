@@ -32,7 +32,7 @@ class _BackForwardWidgetState extends ConsumerState<BackForwardWidget> {
     return Transform.translate(
       offset: Offset(
           MediaQuery.of(context).size.width *
-              0.7 *
+              0.9 *
               (widget.isRightSide ? 1 : -1),
           0),
       child: InkWell(
