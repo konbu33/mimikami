@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -31,7 +32,7 @@ class _BackForwardWidgetState extends ConsumerState<BackForwardWidget> {
     return Transform.translate(
       offset: Offset(
           MediaQuery.of(context).size.width *
-              0.7 *
+              0.9 *
               (widget.isRightSide ? 1 : -1),
           0),
       child: InkWell(
@@ -44,7 +45,7 @@ class _BackForwardWidgetState extends ConsumerState<BackForwardWidget> {
         ),
         // onDoubleTap: widget.onDoubleTap,
         onTapDown: (tapDownDetails) {
-          print("tapDownDetails: ${tapDownDetails.localPosition}");
+          logger.d("tapDownDetails: ${tapDownDetails.localPosition}");
           pressCount++;
           setState(() {});
 

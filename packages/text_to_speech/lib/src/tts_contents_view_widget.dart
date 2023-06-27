@@ -57,7 +57,7 @@ class TtsContentsViewWidget extends HookConsumerWidget {
 
                     ref
                         .read(ttsStateNotifierProvider.notifier)
-                        .updateTssState(EnumTtsState.junping);
+                        .updateTssState(EnumTtsState.jumping);
 
                     ref
                         .read(TextToSpeechWidgetState
