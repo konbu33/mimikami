@@ -9,7 +9,7 @@ enum EnumTtsState {
   stopped,
   paused,
   continued,
-  junping,
+  jumping,
 }
 
 @freezed
@@ -41,4 +41,5 @@ class TtsStateNotifier extends _$TtsStateNotifier {
   bool isStopped() => state.value == EnumTtsState.stopped;
   bool isPaused() => state.value == EnumTtsState.paused;
   bool isContinued() => state.value == EnumTtsState.continued;
+  bool isJumping() => state.value == EnumTtsState.jumping;
 }

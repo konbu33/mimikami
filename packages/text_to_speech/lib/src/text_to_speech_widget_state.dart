@@ -291,7 +291,7 @@ void _stopped(_StoppedRef ref) async {
 @riverpod
 void _junping(_JunpingRef ref) async {
   final ttsState = ref.watch(ttsStateNotifierProvider);
-  if (ttsState.value != EnumTtsState.junping) return;
+  if (ttsState.value != EnumTtsState.jumping) return;
 
   final ttsRepository = ref.watch(ttsRepositoryProvider);
   await ttsRepository.stop();
