@@ -111,6 +111,12 @@ FlutterTts Function() initializedTts(InitializedTtsRef ref) {
         unawaited(Future(() => ref
             .read(TextToSpeechWidgetState.currentTextPointProvider.notifier)
             .increment()));
+
+        // iOSの場合、stop時に、setCompletionHandlerが呼ばれるため、setCompletionHandler側で再度playを実行する。
+      } else if (ref.read(ttsStateNotifierProvider.notifier).isJumping()) {
+        ref
+            .read(ttsStateNotifierProvider.notifier)
+            .updateTssState(EnumTtsState.playing);
       }
     });
 

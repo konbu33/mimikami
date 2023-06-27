@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:common/common.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:scroll_to_index/scroll_to_index.dart';
+import 'package:text_to_speech/src/platform_state.dart';
 
 import 'text_to_speech_state.dart';
 import 'tts_repository_impl.dart';
@@ -293,12 +294,20 @@ void _junping(_JunpingRef ref) async {
   final ttsState = ref.watch(ttsStateNotifierProvider);
   if (ttsState.value != EnumTtsState.jumping) return;
 
+  // 読み上げ途中でも途中で中断するために、stopを実行する。
   final ttsRepository = ref.watch(ttsRepositoryProvider);
   await ttsRepository.stop();
 
-  unawaited(Future(() => ref
-      .read(ttsStateNotifierProvider.notifier)
-      .updateTssState(EnumTtsState.playing)));
+  // iOSの場合、setCompletionHandlerが呼ばれるため、setCompletionHandler側で再度playを実行する。
+  // Androidの場合、stop時に、setCompletionHandlerが呼ばれないため、この時点で、再度playを実行する。
+  final isAndroid = ref.watch(PlatformState.isAndroidStateProvider);
+  if (isAndroid) {
+    unawaited(Future.wait([
+      Future(() => ref
+          .read(ttsStateNotifierProvider.notifier)
+          .updateTssState(EnumTtsState.playing)),
+    ]));
+  }
 
   logger.d("stoppedProvider: executed");
 }
