@@ -111,27 +111,24 @@ class _IsScrolling extends _$IsScrolling {
 }
 
 @riverpod
-class _IsScrollingCancelTimer extends _$IsScrollingCancelTimer {
-  @override
-  Timer Function() build() {
-    // Timerをそのまま返すと、返した時点でTimerが開始される様子で、
-    // Timerの開始タイミングをコントロールできないため、Timerを返す関数を返す。
-    // この関数を呼び出した時点で、Timerが開始されるようにする。
-    Timer timer() {
-      return Timer.periodic(const Duration(seconds: 1), (timer) {
-        logger.d("timer: executed date: ${timer.tick} : ${DateTime.now()}");
-        // 1秒毎に、繰り返し、5回実行したら、スクロール中状態を解除し、タイマーもキャンセルする。
-        if (timer.tick == 5) {
-          unawaited(Future(() => ref
-              .read(TextToSpeechWidgetState.isScrollingProvider.notifier)
-              .update(false)));
-          timer.cancel();
-        }
-      });
-    }
-
-    return timer;
+Timer Function() _isScrollingCancelTimer(_IsScrollingCancelTimerRef ref) {
+  // Timerをそのまま返すと、返した時点でTimerが開始される様子で、
+  // Timerの開始タイミングをコントロールできないため、Timerを返す関数を返す。
+  // この関数を呼び出した時点で、Timerが開始されるようにする。
+  Timer timer() {
+    return Timer.periodic(const Duration(seconds: 1), (timer) {
+      logger.d("timer: executed date: ${timer.tick} : ${DateTime.now()}");
+      // 1秒毎に、繰り返し、5回実行したら、スクロール中状態を解除し、タイマーもキャンセルする。
+      if (timer.tick == 5) {
+        unawaited(Future(() => ref
+            .read(TextToSpeechWidgetState.isScrollingProvider.notifier)
+            .update(false)));
+        timer.cancel();
+      }
+    });
   }
+
+  return timer;
 }
 
 // --------------------------------------------------
