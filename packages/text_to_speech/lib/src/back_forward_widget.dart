@@ -81,17 +81,19 @@ class _BackForwardWidgetState extends ConsumerState<BackForwardWidget> {
                     : Alignment.centerRight,
                 child: Transform.translate(
                   offset: Offset(
-                    MediaQuery.of(context).size.width *
-                        0.1 *
-                        (widget.isRightSide ? 1 : -1),
-                    MediaQuery.of(context).size.height * 0.1 * -1,
+                    3 * (widget.isRightSide ? 1 : -1),
+                    0,
+                    // MediaQuery.of(context).size.width *
+                    //     0.1 *
+                    //  (widget.isRightSide ? 1 : -1),
+                    // MediaQuery.of(context).size.height * 0.1 * -1,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
                         color: Colors.grey.withOpacity(0.5),
-                        size: 80,
+                        size: 40,
                         widget.icon,
                       ),
                       // Text("$pressCount"),
