@@ -38,16 +38,16 @@ class ArticleDetailPage extends HookConsumerWidget {
           IconButton(
             icon: const Icon(Icons.open_in_browser_outlined),
             onPressed: () async {
-              final url = Uri.parse(currentArticleState.uriString);
-              logger.d("url: $url");
+              final uri = Uri.parse(currentArticleState.uriString);
+              logger.d("uri: $uri");
 
-              if (await canLaunchUrl(url)) {
+              if (await canLaunchUrl(uri)) {
                 await launchUrl(
-                  url,
+                  uri,
                   mode: LaunchMode.externalApplication,
                 );
               } else {
-                throw 'Could not launch $url';
+                throw 'Could not launch $uri';
               }
             },
           ),
