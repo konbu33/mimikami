@@ -5,6 +5,7 @@ import 'package:common/common.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'article_state.dart';
 import 'article_state_list.dart';
@@ -68,13 +69,47 @@ class ArticleWidget extends StatelessWidget {
         final articleDeleteMode =
             ref.watch(ArticlePageState.articleDeleteModeProvider);
 
+        final uri = Uri.parse(articleState.uriString);
+
         return Stack(
           children: [
             // 記事
             Container(
               margin: const EdgeInsets.all(3),
               child: ListTile(
-                title: Text(articleState.title),
+                title: RichText(
+                  text: TextSpan(
+                    style: const TextStyle(
+                      color: Colors.black,
+                    ),
+                    children: [
+                      TextSpan(text: articleState.title),
+                      WidgetSpan(
+                        child: Transform.translate(
+                          offset: const Offset(3, 3),
+                          child: InkWell(
+                              borderRadius: BorderRadius.circular(5),
+                              onTap: () async {
+                                if (await canLaunchUrl(uri)) {
+                                  await launchUrl(
+                                    uri,
+                                    mode: LaunchMode.externalApplication,
+                                  );
+                                } else {
+                                  throw 'Could not llunch $uri';
+                                }
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 3),
+                                child: Icon(
+                                  Icons.open_in_browser_outlined,
+                                ),
+                              )),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
                 onTap: articleDeleteMode
                     ? null
                     : () {
